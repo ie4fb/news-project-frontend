@@ -6,7 +6,6 @@
   width: 100%;
   padding: 0;
   height: 90px;
-  
 }
 .wrapper {
   width: calc(100% - 160px);
@@ -27,7 +26,7 @@
   display: flex;
   flex-flow: row;
   margin: 0 0 0 8%;
-  gap: 60px;
+  gap: 4vw;
 }
 .button {
   width: 44px;
@@ -95,5 +94,10 @@
 @media screen and (max-width: 768px) {
   .wrapper {
     width: calc(100% - 30px);
+  }
+}
+@media screen and (min-width: 1440px) {
+  .tabs {
+    gap: 60px;
   }
 }
