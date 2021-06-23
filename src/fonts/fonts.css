@@ -1,0 +1,45 @@
+/* nunito-regular - latin_cyrillic */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('./nunito-v16-latin_cyrillic-regular.woff2') format('woff2'),
+    url('./nunito-v16-latin_cyrillic-regular.woff') format('woff');
+}
+/* nunito-600 - latin_cyrillic */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('./nunito-v16-latin_cyrillic-600.woff2') format('woff2'),
+    url('./nunito-v16-latin_cyrillic-600.woff') format('woff');
+}
+/* nunito-700 - latin_cyrillic */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('./nunito-v16-latin_cyrillic-700.woff2') format('woff2'),
+    url('./nunito-v16-latin_cyrillic-700.woff') format('woff');
+}
+/* nunito-800 - latin_cyrillic */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url('./nunito-v16-latin_cyrillic-800.woff2') format('woff2'),
+    url('./nunito-v16-latin_cyrillic-800.woff') format('woff');
+}
+/* nunito-900 - latin_cyrillic */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url('./nunito-v16-latin_cyrillic-900.woff2') format('woff2'),
+    url('./nunito-v16-latin_cyrillic-900.woff') format('woff');
+}
