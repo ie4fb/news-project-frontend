@@ -14,6 +14,10 @@ export default function AppHeader({handleMenuClick, isNavbarActive}) {
     setActiveTab(path);
   };
 
+  useEffect(() => {
+    setActiveTab(history.location.pathname);
+  },[])
+
   const windowSize = useWindowSize();
   useEffect(() => {
     console.log(windowSize.width)
