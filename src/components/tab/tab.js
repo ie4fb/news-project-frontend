@@ -5,12 +5,6 @@ import { useHistory } from 'react-router';
 
 export default function Tab({ path, label, onClick, activeTab }) {
 
-  const history = useHistory();
-
-  useEffect(() => 
-  console.log(history.location.pathname),
-  [history.location.pathname]);
-
   return (
     <div className={tabStyles.tab} onClick={() => {onClick(path)}}>
       <Link className={tabStyles.link} to={path}>

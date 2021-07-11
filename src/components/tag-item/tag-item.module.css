@@ -1,0 +1,19 @@
+.container {
+  display: flex;
+  background: #232232;
+  opacity: 0.9;
+  border-radius: 4px;
+  margin-right: 8px;
+}
+.clickable {
+    cursor: pointer;
+}
+.label {
+  margin: 0!important;
+  padding: 1px 8px!important;
+  font-family: 'Nunito', helvetica, sans-serif;
+  font-weight: 400;
+  font-size: 16px!important;
+  line-height: 22px;
+  color: #ffffff;
+}
