@@ -1,0 +1,39 @@
+.item {
+  display: flex;
+  flex-direction: column;
+  width: 20%;
+  margin-top: 12px;
+}
+.tag {
+  font-family: 'Nunito', helvetica, sans-serif;
+  font-size: 16px;
+  line-height: 22px;
+  box-sizing: border-box;
+  border-radius: 4px;
+  padding: 0 8px;
+  width: fit-content;
+  margin: 0;
+}
+.tag_dark {
+  border: 1px solid #ffffff;
+  color: #fff;
+}
+.heading {
+  font-family: 'Nunito', helvetica, sans-serif;
+  font-size: 22px;
+  line-height: 30px;
+  height: 90px;
+  margin: 10px 0 0 0;
+}
+.heading_dark {
+  color: #fff;
+}
+.text {
+  font-family: 'Nunito', helvetica, sans-serif;
+  font-size: 16px;
+  line-height: 22px;
+  height: 103px;
+}
+.text_dark {
+    color: #FFF;
+}

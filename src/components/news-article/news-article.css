@@ -1,6 +1,8 @@
 .news-article {
   display: flex;
   flex-direction: column;
+  max-width: 1440px;
+  width: calc(100% - 160px);
 }
 .news-article_empty {
   text-align: center;

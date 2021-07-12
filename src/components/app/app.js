@@ -6,6 +6,7 @@ import Main from '../main/main';
 import NewsEditor from '../news-editor/news-editor';
 import Footer from '../footer/footer';
 import TagsFilter from '../tags-filter/tags-filter';
+import NewsBlockTop from '../news-block-top/news-block-top';
 
 const tags = [
   'Политика',
@@ -46,7 +47,7 @@ function App() {
   };
 
   useEffect(() => {
-    getNews().then((data) => setContent(data[0]));
+    getNews().then((data) => setContent(data));
   }, []);
 
   return (
@@ -61,9 +62,12 @@ function App() {
           <TagsFilter categories={tags} />
           <Main>
             {content && (
-               <NewsEditor content={content} />
+              <>
+                <NewsBlockTop content={content} />
+
+                {/* <NewsEditor content={content} /> */}
+              </>
             )}
-           
           </Main>
         </Route>
         <Route exact path='/blogs'></Route>
