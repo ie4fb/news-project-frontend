@@ -45,7 +45,7 @@ export default function Commentaries({ data }) {
   return (
     <section className={styles.container}>
       <h3 className={styles.heading}>Комментарии</h3>
-      {data.map((item) => (
+      {data && data.map((item) => (
         <Commentary item={item} />
       ))}
       <EditSection onSubmit={onSubmit} refs={{name:nameInputRef, text:textInputRef}} />

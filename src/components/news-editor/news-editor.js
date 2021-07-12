@@ -74,7 +74,7 @@ export const content = {
   ],
 };
 
-export default function NewsEditor() {
+export default function NewsEditor( {content} ) {
   const initialState = editorStateFromRaw(content.renderData);
   const [editorState, setEditorState] = useState(initialState);
   const [raw, setRaw] = useState(

@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import redraft from 'redraft';
 import styles from './news-article.css';
 import AtomicBlock from './atomic-block/atomic-block';
@@ -13,15 +14,23 @@ const processRenderData = (data) => {
   const date = data.date;
   const link = data.link;
   const categories = data.category;
-  const commentaries = data.commentaries;
+  const commentaries = data.comments;
 
-  return {raw, heading, date, link, categories, commentaries}
-}
+  return { raw, heading, date, link, categories, commentaries };
+};
+
+
 
 export default function NewsArticle({ data }) {
+  const [data2, setdata] = useState(null); 
 
 
-  const {raw, heading, date, link, categories, commentaries} = processRenderData(data);
+  useEffect(() => {
+    console.log(data2);
+  }, [data2]);
+
+  const { raw, heading, date, link, categories, commentaries } =
+    processRenderData(data);
 
   const addBreaklines = (children) => children.map((child) => [child, <br />]);
 
@@ -90,29 +99,29 @@ export default function NewsArticle({ data }) {
 
   return (
     <>
-    <article className='news-article'>
-      {/* eslint-disable-next-line react/no-unescaped-entities */}
-      {isEmpty && (
-        <div className='news-article_empty'>There's nothing to render...</div>
-      )}
-      {!isEmpty && (
-        <>
-          <h1 className={'news-article__heading'}>{heading}</h1>
-          <span className={'news-article__date'}>{date}</span>
-          <div className={'news-article__content'}>
-            {redraft(raw, { inline, blocks, entities }, options)}
-          </div>
-          <p className={'news-article__source'}>
-            Статья взята с сайта{' '}
-            <a rel='noreferrer' className='news-article__link' href={link}>
-              Коммерсант
-            </a>
-          </p>
-          <TagsSection categories = {categories} />
-        </>
-      )}
-    </article>
-    <Commentaries data={commentaries}/>
+      <article className='news-article'>
+        {/* eslint-disable-next-line react/no-unescaped-entities */}
+        {isEmpty && (
+          <div className='news-article_empty'>There's nothing to render...</div>
+        )}
+        {!isEmpty && (
+          <>
+            <h1 className={'news-article__heading'}>{heading}</h1>
+            <span className={'news-article__date'}>{date}</span>
+            <div className={'news-article__content'}>
+              {redraft(raw, { inline, blocks, entities }, options)}
+            </div>
+            <p className={'news-article__source'}>
+              Статья взята с сайта{' '}
+              <a rel='noreferrer' className='news-article__link' href={link}>
+                Коммерсант
+              </a>
+            </p>
+            <TagsSection categories={categories} />
+          </>
+        )}
+      </article>
+      <Commentaries data={commentaries} />
     </>
   );
 }

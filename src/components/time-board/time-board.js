@@ -27,7 +27,7 @@ export default function TimeBoard() {
   }
   useInterval(() => {
       updateTime();
-  }, 1000)
+  }, 200)
 
 
   return (
