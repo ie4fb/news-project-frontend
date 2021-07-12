@@ -63,7 +63,6 @@ function App() {
             {content && (
                <NewsEditor content={content} />
             )}
-           
           </Main>
         </Route>
         <Route exact path='/blogs'></Route>
