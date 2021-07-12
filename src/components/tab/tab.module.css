@@ -1,0 +1,27 @@
+.tab {
+  display: flex;
+  padding-top: 28px;
+}
+.link {
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+}
+.label {
+  font-family: 'Nunito', helvetica, sans-serif;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 25px;
+  color: #fff;
+  margin: 0;
+}
+.label_inactive {
+  color: #a259ff;
+}
+.active_indicator {
+  width: 100%;
+  border-top: 2px solid #a259ff;
+  border-bottom: 2px solid #a259ff;
+  margin: auto 0 0 0;
+}

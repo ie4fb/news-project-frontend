@@ -1,0 +1,26 @@
+.wrapper {
+  width: 100%;
+  display: flex;
+}
+
+.content {
+  width: 100%;
+  background: #232232;
+  justify-content: center;
+  display: flex;
+  padding-top: 48px;
+}
+.main {
+  width: calc(100% - 160px);
+}
+@media screen and (max-width: 1279px) {
+  .wrapper {
+    width: calc(100% - 80px);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .wrapper {
+    width: calc(100% - 30px);
+  }
+}

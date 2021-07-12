@@ -1,0 +1,107 @@
+.footer {
+  background: #1d1c1c;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 36px 0 48px 0;
+  margin: auto 0 0 0;
+}
+.wrapper {
+  width: calc(100% - 160px);
+  display: flex;
+  flex-direction: row;
+  max-width: 1440px;
+  display: grid;
+  column-gap: 30px;
+  grid-template-areas:
+    'copyright navigation text advertisement'
+    'copyright navigation text restriction'
+    'copyright navigation text restriction';
+}
+.copyright {
+  grid-area: copyright;
+  font-family: 'Nunito', Helvetica, sans-serif;
+  font-size: 16px;
+  line-height: 22px;
+  color: #fff;
+  margin: 0;
+}
+.navigation {
+  grid-area: navigation;
+  display: flex;
+  flex-direction: column;
+}
+.text {
+  grid-area: text;
+  max-width: 400px;
+  font-family: 'Nunito', Helvetica, sans-serif;
+  font-size: 16px;
+  line-height: 22px;
+  font-weight: 400;
+  color: #aeadc2;
+  margin: 0;
+}
+.link {
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 25px;
+  font-family: 'Nunito', Helvetica, sans-serif;
+  text-decoration: none;
+  color: #a259ff;
+  margin-bottom: 32px;
+}
+.avertisement_link {
+  grid-area: advertisement;
+  width: fit-content;
+  margin: 0 0 0 auto;
+  display: flex;
+  height: fit-content;
+}
+.restriction {
+  grid-area: restriction;
+  text-align: right;
+  font-family: 'Nunito', Helvetica, sans-serif;
+  font-size: 16px;
+  line-height: 25px;
+  color: #fff;
+  font-weight: 400;
+  margin: 0;
+}
+@media screen and (max-width: 1279px) {
+  .wrapper {
+    width: calc(100% - 80px);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .footer {
+      padding: 30px 0 150px 0;
+  }
+  .copyright {
+      white-space: nowrap;
+  }
+  .navigation {
+      flex-direction: row;
+      justify-content: space-between;
+      width: 80%;
+      margin: 32px auto 0 auto;
+  }
+  .link {
+    margin-bottom: 0;
+  }
+  .text {
+      margin: 50px auto 0 auto;
+      text-align: center;
+  }
+  .avertisement_link {
+      margin: 88px auto 0 auto;
+  }
+  .wrapper {
+    width: calc(100% - 72px);
+    grid-template-areas:
+      'copyright restriction'
+      'navigation navigation'
+      'text text'
+      'advertisement advertisement';
+  }
+}

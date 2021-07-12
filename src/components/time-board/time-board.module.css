@@ -1,0 +1,36 @@
+.container {
+  display: flex;
+  gap: 2vw;
+  margin: 28px 0 0 auto;
+}
+.timer {
+  display: flex;
+}
+.locale {
+  font-family: 'Nunito', helvetica, sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 25px;
+  color: #fff;
+  margin: 0 8px 0 0;
+  white-space: nowrap;
+}
+.time {
+  font-family: 'Nunito', helvetica, sans-serif;
+  color: #999696;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 25px;
+  margin: 0;
+}
+@media screen and (max-width: 1279px) {
+  .container {
+    gap: 10px;
+  }
+}
+@media screen and (min-width: 1440px) {
+    .container {
+      gap: 60px;
+    }
+  }
+  
