@@ -3,6 +3,8 @@
   flex-direction: column;
   width: 20%;
   margin-top: 12px;
+  cursor: pointer;
+  margin-right: 5%;
 }
 .tag {
   font-family: 'Nunito', helvetica, sans-serif;
@@ -35,5 +37,40 @@
   height: 103px;
 }
 .text_dark {
-    color: #FFF;
+  color: #fff;
 }
+.bottom_wrapper {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin: 28px 0 70px 0;
+}
+
+.date {
+  text-transform: uppercase;
+  font-family: 'Nunito', helvetica, sans-serif;
+  font-size: 14px;
+  line-height: 19px;
+  color:#000;
+  margin: 0;
+}
+.date_dark {
+  color: #fff;
+}
+.icon {
+  width: 22px;
+  height: 20px;
+}
+.comments_wrapper {
+  display: flex;
+}
+.comments_count {
+  margin: 0 0 0 14px;
+  font-family: 'Nunito', helvetica, sans-serif;
+  font-size: 14px;
+line-height: 19px;
+}
+.comments_count_dark {
+  color: #fff;
+}
+ 

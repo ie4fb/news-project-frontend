@@ -6,6 +6,7 @@ import { MegadraftEditor, editorStateFromRaw } from 'megadraft';
 import { convertFromRaw, convertToRaw, EditorState } from 'draft-js';
 import TagsSection from '../tags-section/tags-section';
 import Commentaries from '../commentaries/commentaries';
+import { useParams } from 'react-router';
 
 const processRenderData = (data) => {
   const content = editorStateFromRaw(data.renderData);
@@ -21,13 +22,11 @@ const processRenderData = (data) => {
 
 
 
-export default function NewsArticle({ data }) {
-  const [data2, setdata] = useState(null); 
+export default function NewsArticle({ content }) {
 
+  const { id } = useParams();
 
-  useEffect(() => {
-    console.log(data2);
-  }, [data2]);
+  const data = content.find((item) => item._id === id)
 
   const { raw, heading, date, link, categories, commentaries } =
     processRenderData(data);
