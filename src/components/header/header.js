@@ -19,9 +19,6 @@ export default function AppHeader({handleMenuClick, isNavbarActive}) {
   },[])
 
   const windowSize = useWindowSize();
-  useEffect(() => {
-    console.log(windowSize.width)
-  }, [windowSize])
 
   return (
     <header className={headerStyles.header}>

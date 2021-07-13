@@ -9,6 +9,10 @@ import Footer from '../footer/footer';
 import TagsFilter from '../tags-filter/tags-filter';
 import NewsBlockTop from '../news-block-top/news-block-top';
 import Breadcrubs from '../breadcrumbs/breadcrumbs';
+import { getNewsData } from '../../services/actions/news';
+import { useSelector, useDispatch } from 'react-redux';
+import { getTagsData } from '../../services/actions/tagFilter';
+import NewsBlockLarge from '../news-block-large/news-block-large';
 
 const tags = [
   'Политика',
@@ -29,28 +33,41 @@ const tags = [
 function App() {
   const [isNavbarActive, setIsNavbarActive] = useState(false);
 
-  const [content, setContent] = useState(null);
+  //const [news, setNews] = useState(null);
   const history = useHistory();
+  const dispatch = useDispatch();
 
-  const getNews = () => {
-    return fetch('http://localhost:3001/news', {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }).then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-    });
+  const [content, setContent] = useState(null);
+  const [newsByCategory, setNewsByCategory] = useState(null);
+
+  const { news } = useSelector((state) => state.news);
+  const { categories } = useSelector((state) => state.tagFilter);
+
+  const getExchangeRates = () => {
+    fetch('https://www.cbr-xml-daily.ru/daily_json.js')
+      .then(res => res.json())
+      .then((res) => console.log(res));
   };
+
+  useEffect(() => {
+    const newsByCategory = {};
+    categories.forEach((tag) => {
+      newsByCategory[tag] = news.filter((item) => item.category === tag);
+    });
+    newsByCategory['Все'] = news;
+    setContent(news);
+    setNewsByCategory(newsByCategory);
+  }, [news, categories]);
 
   const handleMenuClick = () => {
     setIsNavbarActive((prevState) => !prevState);
   };
 
   useEffect(() => {
-    getNews().then((data) => setContent(data));
-  }, []);
+    dispatch(getNewsData());
+    dispatch(getTagsData());
+    getExchangeRates();
+  }, [dispatch]);
 
   return (
     <Router history={history} basename='/'>
@@ -61,13 +78,23 @@ function App() {
 
       <Switch>
         <Route exact path='/news'>
-          <TagsFilter categories={tags} />
+          <TagsFilter place={'/news'} categories={tags} />
           <Main>
-            {content && (
+            {newsByCategory && (
               <>
-                <NewsBlockTop content={content} />
-
+                <NewsBlockTop content={newsByCategory} />
+                <NewsBlockLarge content={newsByCategory} />
                 {/* <NewsEditor content={content} /> */}
+              </>
+            )}
+          </Main>
+        </Route>
+        <Route exact path='/news/:category'>
+          <TagsFilter place={'/news'} categories={tags} />
+          <Main>
+            {newsByCategory && (
+              <>
+                <NewsBlockTop content={newsByCategory} />
               </>
             )}
           </Main>

@@ -84,3 +84,10 @@ export const deleteComment = (comment, id) => {
     body: JSON.stringify(comment),
   }).then(checkError);
 };
+
+export const getExchangeRates = () => {
+  return fetch('https://www.cbr-xml-daily.ru/daily_json.js')
+    .then(res => res.json())
+    .catch((err) => console.log(err))
+};
+

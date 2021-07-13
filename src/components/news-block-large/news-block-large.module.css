@@ -1,0 +1,30 @@
+.container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding-top: 56px;
+}
+.content {
+  width: calc(100% - 160px);
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-areas:
+    'vertical_top horizontal horizontal'
+    'vertical_top single vertical_bottom'
+    'horizontal_image horizontal_image vertical_bottom';
+    max-width: 1440px;
+    gap: 40px;
+}
+
+@media screen and (max-width: 1279px) {
+  .content {
+    width: calc(100% - 80px);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .content {
+    width: calc(100% - 30px);
+  }
+}
