@@ -1,6 +1,8 @@
 .news-article {
   display: flex;
   flex-direction: column;
+  max-width: 1440px;
+  width: calc(100% - 160px);
 }
 .news-article_empty {
   text-align: center;
@@ -83,5 +85,16 @@
   .news-article__source {
     margin-top: 28px !important;
     margin-bottom: 14px!important;
+  }
+}
+@media screen and (max-width: 1279px) {
+  .news-article {
+    width: calc(100% - 80px);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .news-article {
+    width: calc(100% - 30px);
   }
 }

@@ -4,8 +4,11 @@ import AppHeader from '../header/header';
 import { Router, Route, useHistory, Switch } from 'react-router-dom';
 import Main from '../main/main';
 import NewsEditor from '../news-editor/news-editor';
+import NewsArticle from '../news-article/news-article';
 import Footer from '../footer/footer';
 import TagsFilter from '../tags-filter/tags-filter';
+import NewsBlockTop from '../news-block-top/news-block-top';
+import Breadcrubs from '../breadcrumbs/breadcrumbs';
 
 const tags = [
   'Политика',
@@ -46,7 +49,7 @@ function App() {
   };
 
   useEffect(() => {
-    getNews().then((data) => setContent(data[0]));
+    getNews().then((data) => setContent(data));
   }, []);
 
   return (
@@ -61,7 +64,21 @@ function App() {
           <TagsFilter categories={tags} />
           <Main>
             {content && (
-               <NewsEditor content={content} />
+              <>
+                <NewsBlockTop content={content} />
+
+                {/* <NewsEditor content={content} /> */}
+              </>
+            )}
+          </Main>
+        </Route>
+        <Route exact path='/news/:category/:id'>
+          <Main>
+            {content && (
+              <>
+                <Breadcrubs />
+                <NewsArticle content={content} />
+              </>
             )}
           </Main>
         </Route>

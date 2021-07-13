@@ -1,5 +1,5 @@
 .wrapper {
-    width: 100%;
+    width: calc(100% - 160px);
     display: flex;
     flex-direction: row;
     max-width: 1440px;
