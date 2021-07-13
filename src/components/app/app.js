@@ -1,33 +1,38 @@
-import { useState, useEffect } from 'react';
-import appStyles from './app.module.css';
-import AppHeader from '../header/header';
-import { Router, Route, useHistory, Switch } from 'react-router-dom';
-import Main from '../main/main';
-import NewsEditor from '../news-editor/news-editor';
-import NewsArticle from '../news-article/news-article';
-import Footer from '../footer/footer';
-import TagsFilter from '../tags-filter/tags-filter';
-import NewsBlockTop from '../news-block-top/news-block-top';
-import Breadcrubs from '../breadcrumbs/breadcrumbs';
-import { getNewsData } from '../../services/actions/news';
-import { useSelector, useDispatch } from 'react-redux';
-import { getTagsData } from '../../services/actions/tagFilter';
-import NewsBlockLarge from '../news-block-large/news-block-large';
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { Router, Route, useHistory, Switch, Redirect } from "react-router-dom";
+import AppHeader from "../header/header";
+import { getNewsData } from "../../services/actions/news";
+import { getTagsData } from "../../services/actions/tagFilter";
+
+import Main from "../main/main";
+import NewsEditor from "../news-editor/news-editor";
+import NewsArticle from "../news-article/news-article";
+import Footer from "../footer/footer";
+import TagsFilter from "../tags-filter/tags-filter";
+import NewsBlockTop from "../news-block-top/news-block-top";
+import Breadcrubs from "../breadcrumbs/breadcrumbs";
+import NewsBlockLarge from "../news-block-large/news-block-large";
+import Login from "../login/login";
+// import Admin from '../admin/admin';
+import { ProtectedRoute } from "../protected-route/protected-route";
+
+import appStyles from "./app.module.css";
 
 const tags = [
-  'Политика',
-  'Общество',
-  'Бизнес',
-  'Экономика',
-  'Происшествия',
-  'Мир',
-  'Инвестировать',
-  'Телекоммуникации',
-  'Финансы. Рынок',
-  'Занять',
-  'В городе',
-  'Культура',
-  'Спорт',
+  "Политика",
+  "Общество",
+  "Бизнес",
+  "Экономика",
+  "Происшествия",
+  "Мир",
+  "Инвестировать",
+  "Телекоммуникации",
+  "Финансы. Рынок",
+  "Занять",
+  "В городе",
+  "Культура",
+  "Спорт",
 ];
 
 function App() {
@@ -44,8 +49,8 @@ function App() {
   const { categories } = useSelector((state) => state.tagFilter);
 
   const getExchangeRates = () => {
-    fetch('https://www.cbr-xml-daily.ru/daily_json.js')
-      .then(res => res.json())
+    fetch("https://www.cbr-xml-daily.ru/daily_json.js")
+      .then((res) => res.json())
       .then((res) => console.log(res));
   };
 
@@ -54,7 +59,7 @@ function App() {
     categories.forEach((tag) => {
       newsByCategory[tag] = news.filter((item) => item.category === tag);
     });
-    newsByCategory['Все'] = news;
+    newsByCategory["Все"] = news;
     setContent(news);
     setNewsByCategory(newsByCategory);
   }, [news, categories]);
@@ -70,15 +75,14 @@ function App() {
   }, [dispatch]);
 
   return (
-    <Router history={history} basename='/'>
+    <Router history={history} basename="/">
       <AppHeader
         handleMenuClick={handleMenuClick}
         isNavbarActive={isNavbarActive}
       />
-
       <Switch>
-        <Route exact path='/news'>
-          <TagsFilter place={'/news'} categories={tags} />
+        <Route exact path="/news">
+          <TagsFilter place={"/news"} categories={tags} />
           <Main>
             {newsByCategory && (
               <>
@@ -89,8 +93,8 @@ function App() {
             )}
           </Main>
         </Route>
-        <Route exact path='/news/:category'>
-          <TagsFilter place={'/news'} categories={tags} />
+        <Route exact path="/news/:category">
+          <TagsFilter place={"/news"} categories={tags} />
           <Main>
             {newsByCategory && (
               <>
@@ -99,7 +103,7 @@ function App() {
             )}
           </Main>
         </Route>
-        <Route exact path='/news/:category/:id'>
+        <Route exact path="/news/:category/:id">
           <Main>
             {content && (
               <>
@@ -109,8 +113,18 @@ function App() {
             )}
           </Main>
         </Route>
-        <Route exact path='/blogs'></Route>
-        <Route exact path='/channels'></Route>
+        <Route exact path="/blogs"></Route>
+        <Route exact path="/channels"></Route>
+        <Route exact path="/login">
+          <Login />
+        </Route>
+        <ProtectedRoute path={`/admin`} exact={true}>
+          {content && <NewsEditor content={content} />}
+        </ProtectedRoute>
+        <Route>
+          <Redirect to={"/"} />
+        </Route>
+        F
       </Switch>
       <Footer />
     </Router>
