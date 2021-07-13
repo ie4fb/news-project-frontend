@@ -6,7 +6,6 @@ import useWindowSize from '../../hooks/useWindowSize';
 import { useLocation } from 'react-router';
 
 export default function NewsBlockTop({ content }) {
-  const [filteredItems, setFilteredItems] = useState([]);
   const [itemsToRender, setItemsToRender] = useState(null);
   const [renderCount, setRenderCount] = useState(4);
   const location = useLocation();
@@ -16,13 +15,17 @@ export default function NewsBlockTop({ content }) {
   const windowSize = useWindowSize();
   useEffect(() => {
     if (renderCount !== Math.floor(windowSize.width / 280)) {
-      setRenderCount(Math.floor(windowSize.width / 280));
+      setRenderCount(
+        Math.floor(windowSize.width / 280) > 4
+          ? 4
+          : Math.floor(windowSize.width / 280)
+      );
     }
   }, [windowSize, renderCount, location]);
 
   useEffect(() => {
     if (content && renderCount && currentFilter) {
-      setItemsToRender(content.[currentFilter].slice(0, renderCount));
+      setItemsToRender(content[currentFilter].slice(0, renderCount));
     }
   }, [content, renderCount, currentFilter]);
 

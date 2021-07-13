@@ -1,10 +1,10 @@
-import { cos } from 'prelude-ls';
 import { useEffect, useState } from 'react';
 import styles from './news-item.module.css';
 import commentsIcon from '../../images/icons/comments.svg';
 import commentsIcon_light from '../../images/icons/comments_light.svg';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
+import { formatDate } from '../../utils/utils';
 
 export default function NewsItem({ item, type, index, maxCount }) {
   const history = useHistory();
@@ -17,40 +17,9 @@ export default function NewsItem({ item, type, index, maxCount }) {
 
   const { currentFilter } = useSelector((store) => store.tagFilter);
 
-  useEffect(() => {})
+  useEffect(() => {});
 
-  const date = new Date();
-  const months = [
-    '',
-    'Января',
-    'Февраля',
-    'Марта',
-    'Апреля',
-    'Мая',
-    'Июня',
-    'Июля',
-    'Августа',
-    'Сентября',
-    'Октября',
-    'Ноября',
-    'Декабря',
-  ];
-  const formattedDate = `${
-    date.toISOString(item.date).split('').slice(0, 10).join('').split('-')[2]
-  } ${
-    months[
-      parseInt(
-        date
-          .toISOString(item.date)
-          .split('')
-          .slice(0, 10)
-          .join('')
-          .split('-')[1]
-      )
-    ]
-  } ${
-    date.toISOString(item.date).split('').slice(0, 10).join('').split('-')[0]
-  }`;
+  const formattedDate = formatDate(item);
 
   return (
     <>

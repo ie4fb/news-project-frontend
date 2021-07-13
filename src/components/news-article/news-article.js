@@ -8,11 +8,41 @@ import TagsSection from '../tags-section/tags-section';
 import Commentaries from '../commentaries/commentaries';
 import { useParams } from 'react-router';
 
+
+const getFormattedDate = (rawDate) => {
+  const date = new Date();
+  const months = [
+    '',
+    'Января',
+    'Февраля',
+    'Марта',
+    'Апреля',
+    'Мая',
+    'Июня',
+    'Июля',
+    'Августа',
+    'Сентября',
+    'Октября',
+    'Ноября',
+    'Декабря',
+  ];
+  const formattedDate = `${
+    date.toISOString(rawDate).split('').slice(0, 10).join('').split('-')[2]
+  } ${
+    months[
+      parseInt(
+        date.toISOString(rawDate).split('').slice(0, 10).join('').split('-')[1]
+      )
+    ]
+  } ${date.toISOString(rawDate).split('').slice(0, 10).join('').split('-')[0]}`;
+
+  return formattedDate;
+};
 const processRenderData = (data) => {
   const content = editorStateFromRaw(data.renderData);
   const raw = convertToRaw(content.getCurrentContent());
   const heading = data.heading;
-  const date = data.date;
+  const date = getFormattedDate(data.date);
   const link = data.link;
   const categories = data.category;
   const commentaries = data.comments;
@@ -24,7 +54,6 @@ export default function NewsArticle({ content }) {
   const { id } = useParams();
 
   const data = content.find((item) => item._id === id);
-
 
   const { raw, heading, date, link, categories, commentaries } = data
     ? processRenderData(data)

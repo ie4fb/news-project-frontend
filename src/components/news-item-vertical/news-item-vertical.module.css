@@ -1,49 +1,47 @@
-.item {
+.container {
   display: flex;
   flex-direction: column;
-  width: 280px;
-  margin-top: 12px;
+  /* max-width: 400px; */
+  font-family: 'Nunito', helvetica, sans-serif;
   cursor: pointer;
-  margin-right: 5%;
+  min-height: 100%;
+}
+
+.image {
+  width: 27vw;
+  height: auto;
+  object-fit: fill;
+  display: block;
+  max-width: 483px;
 }
 .tag {
-  font-family: 'Nunito', helvetica, sans-serif;
-  font-size: 16px;
-  line-height: 22px;
-  box-sizing: border-box;
+  color: #ffffff;
+  background: #232232;
+  opacity: 0.9;
   border-radius: 4px;
-  padding: 0 8px;
   width: fit-content;
-  margin: 0;
-}
-.tag_dark {
-  border: 1px solid #ffffff;
-  color: #fff;
+  padding: 1px 8px;
+  margin: 24px 0;
 }
 .heading {
   font-family: 'Nunito', helvetica, sans-serif;
+  font-style: normal;
+  font-weight: 700;
   font-size: 22px;
   line-height: 30px;
-  height: 90px;
-  margin: 10px 0 0 0;
-}
-.heading_dark {
-  color: #fff;
+  color: #000000;
+  margin: 0;
 }
 .text {
-  font-family: 'Nunito', helvetica, sans-serif;
   font-size: 16px;
   line-height: 22px;
-  height: 103px;
-}
-.text_dark {
-  color: #fff;
+  color: #4a4a5a;
 }
 .bottom_wrapper {
   display: flex;
   justify-content: space-between;
   width: 100%;
-  margin: 28px 0 70px 0;
+  margin: auto 0 33px 0;
 }
 
 .date {
@@ -51,12 +49,9 @@
   font-family: 'Nunito', helvetica, sans-serif;
   font-size: 14px;
   line-height: 19px;
-  color:#000;
+  color: #000;
   margin: 0;
   text-transform: uppercase;
-}
-.date_dark {
-  color: #fff;
 }
 .icon {
   width: 22px;
@@ -64,21 +59,11 @@
 }
 .comments_wrapper {
   display: flex;
+ 
 }
 .comments_count {
   margin: 0 0 0 14px;
   font-family: 'Nunito', helvetica, sans-serif;
   font-size: 14px;
-line-height: 19px;
+  line-height: 19px;
 }
-.comments_count_dark {
-  color: #fff;
-}
-
-@media screen and (max-width: 570px ) {
-  .item {
-    width: 100%
-  }
-
-}
- 

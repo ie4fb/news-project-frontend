@@ -1,9 +1,10 @@
-import { GET_NEWS, GET_NEWS_SUCCESS, GET_NEWS_FAILURE } from '../actions/news';
+import { GET_NEWS, GET_NEWS_SUCCESS, GET_NEWS_FAILURE, SET_FIRST_BLOCK_RENDERED } from '../actions/news';
 
 const initialState = {
   news: [],
   newsReqest: false,
   newsRequestFailed: false,
+  isFirstBlockRendered: false,
 };
 
 export function newsReducer(state = initialState, action) {
@@ -29,6 +30,7 @@ export function newsReducer(state = initialState, action) {
           newsRequestFailed: true,
         };
       }
+
     default: {
       return state;
     }

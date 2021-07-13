@@ -12,6 +12,7 @@ import Breadcrubs from '../breadcrumbs/breadcrumbs';
 import { getNewsData } from '../../services/actions/news';
 import { useSelector, useDispatch } from 'react-redux';
 import { getTagsData } from '../../services/actions/tagFilter';
+import NewsBlockLarge from '../news-block-large/news-block-large';
 
 const tags = [
   'Политика',
@@ -42,28 +43,21 @@ function App() {
   const { news } = useSelector((state) => state.news);
   const { categories } = useSelector((state) => state.tagFilter);
 
-  useEffect(() => {
-    const newsByCategory = {}
-    categories.forEach((tag) =>{
-      newsByCategory.[tag] = news.filter((item) => item.category === tag)
-    })
-    newsByCategory.['Все'] = news
-    setContent(news);
-    setNewsByCategory(newsByCategory)
-
-  }, [news, categories]);
-
-  const getNews = () => {
-    return fetch('http://localhost:3001/news', {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }).then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-    });
+  const getExchangeRates = () => {
+    fetch('https://www.cbr-xml-daily.ru/daily_json.js')
+      .then(res => res.json())
+      .then((res) => console.log(res));
   };
+
+  useEffect(() => {
+    const newsByCategory = {};
+    categories.forEach((tag) => {
+      newsByCategory[tag] = news.filter((item) => item.category === tag);
+    });
+    newsByCategory['Все'] = news;
+    setContent(news);
+    setNewsByCategory(newsByCategory);
+  }, [news, categories]);
 
   const handleMenuClick = () => {
     setIsNavbarActive((prevState) => !prevState);
@@ -72,6 +66,7 @@ function App() {
   useEffect(() => {
     dispatch(getNewsData());
     dispatch(getTagsData());
+    getExchangeRates();
   }, [dispatch]);
 
   return (
@@ -88,7 +83,7 @@ function App() {
             {newsByCategory && (
               <>
                 <NewsBlockTop content={newsByCategory} />
-
+                <NewsBlockLarge content={newsByCategory} />
                 {/* <NewsEditor content={content} /> */}
               </>
             )}
