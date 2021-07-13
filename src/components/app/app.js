@@ -9,6 +9,9 @@ import Footer from '../footer/footer';
 import TagsFilter from '../tags-filter/tags-filter';
 import NewsBlockTop from '../news-block-top/news-block-top';
 import Breadcrubs from '../breadcrumbs/breadcrumbs';
+import { getNewsData } from '../../services/actions/news';
+import { useSelector, useDispatch } from 'react-redux';
+import { getTagsData } from '../../services/actions/tagFilter';
 
 const tags = [
   'Политика',
@@ -29,8 +32,26 @@ const tags = [
 function App() {
   const [isNavbarActive, setIsNavbarActive] = useState(false);
 
-  const [content, setContent] = useState(null);
+  //const [news, setNews] = useState(null);
   const history = useHistory();
+  const dispatch = useDispatch();
+
+  const [content, setContent] = useState(null);
+  const [newsByCategory, setNewsByCategory] = useState(null);
+
+  const { news } = useSelector((state) => state.news);
+  const { categories } = useSelector((state) => state.tagFilter);
+
+  useEffect(() => {
+    const newsByCategory = {}
+    categories.forEach((tag) =>{
+      newsByCategory.[tag] = news.filter((item) => item.category === tag)
+    })
+    newsByCategory.['Все'] = news
+    setContent(news);
+    setNewsByCategory(newsByCategory)
+
+  }, [news, categories]);
 
   const getNews = () => {
     return fetch('http://localhost:3001/news', {
@@ -49,8 +70,9 @@ function App() {
   };
 
   useEffect(() => {
-    getNews().then((data) => setContent(data));
-  }, []);
+    dispatch(getNewsData());
+    dispatch(getTagsData());
+  }, [dispatch]);
 
   return (
     <Router history={history} basename='/'>
@@ -61,13 +83,23 @@ function App() {
 
       <Switch>
         <Route exact path='/news'>
-          <TagsFilter categories={tags} />
+          <TagsFilter place={'/news'} categories={tags} />
           <Main>
-            {content && (
+            {newsByCategory && (
               <>
-                <NewsBlockTop content={content} />
+                <NewsBlockTop content={newsByCategory} />
 
                 {/* <NewsEditor content={content} /> */}
+              </>
+            )}
+          </Main>
+        </Route>
+        <Route exact path='/news/:category'>
+          <TagsFilter place={'/news'} categories={tags} />
+          <Main>
+            {newsByCategory && (
+              <>
+                <NewsBlockTop content={newsByCategory} />
               </>
             )}
           </Main>

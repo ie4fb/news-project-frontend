@@ -2,33 +2,29 @@ import React, { useEffect, useCallback, useState } from 'react';
 import styles from './news-block-top.module.css';
 import NewsItem from '../news-item/news-item';
 import { useSelector } from 'react-redux';
+import useWindowSize from '../../hooks/useWindowSize';
+import { useLocation } from 'react-router';
 
 export default function NewsBlockTop({ content }) {
-  const [itemsToRender, setItemsToRender] = useState(content.slice(0, 4));
+  const [filteredItems, setFilteredItems] = useState([]);
+  const [itemsToRender, setItemsToRender] = useState(null);
+  const [renderCount, setRenderCount] = useState(4);
+  const location = useLocation();
 
   const { currentFilter } = useSelector((store) => store.tagFilter);
 
-  const getFilteredNews = useCallback(() => {
-    if (content && currentFilter !== 'all' && currentFilter) {
-      console.log(content);
-      const itemsToRender = content
-        .filter(function (item) {
-          return item.category === currentFilter;
-        })
-        .map(function (item) {
-          return item;
-        });
-      setItemsToRender(itemsToRender.slice(0,4));
-      //   const itemsToRender = content.findAll(
-      //     (item) => item.category === currentFilter
-      //   );
-      //   console.log(itemsToRender);
+  const windowSize = useWindowSize();
+  useEffect(() => {
+    if (renderCount !== Math.floor(windowSize.width / 280)) {
+      setRenderCount(Math.floor(windowSize.width / 280));
     }
-  }, [currentFilter, content]);
+  }, [windowSize, renderCount, location]);
 
   useEffect(() => {
-    getFilteredNews();
-  }, [content, currentFilter, getFilteredNews]);
+    if (content && renderCount && currentFilter) {
+      setItemsToRender(content.[currentFilter].slice(0, renderCount));
+    }
+  }, [content, renderCount, currentFilter]);
 
   return (
     <>
@@ -36,8 +32,8 @@ export default function NewsBlockTop({ content }) {
         <section className={styles.container}>
           <h1 className={styles.heading}>Новости</h1>
           <div className={styles.wrapper}>
-            {itemsToRender.map((item) => (
-              <NewsItem item={item} type={'dark'} />
+            {itemsToRender.map((item, index) => (
+              <NewsItem key={index} item={item} type={'dark'} />
             ))}
           </div>
         </section>

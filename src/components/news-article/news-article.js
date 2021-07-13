@@ -20,16 +20,22 @@ const processRenderData = (data) => {
   return { raw, heading, date, link, categories, commentaries };
 };
 
-
-
 export default function NewsArticle({ content }) {
-
   const { id } = useParams();
 
-  const data = content.find((item) => item._id === id)
+  const data = content.find((item) => item._id === id);
 
-  const { raw, heading, date, link, categories, commentaries } =
-    processRenderData(data);
+
+  const { raw, heading, date, link, categories, commentaries } = data
+    ? processRenderData(data)
+    : {
+        raw: null,
+        heading: null,
+        date: null,
+        link: null,
+        categories: null,
+        commentaries: null,
+      };
 
   const addBreaklines = (children) => children.map((child) => [child, <br />]);
 

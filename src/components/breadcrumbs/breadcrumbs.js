@@ -2,37 +2,68 @@ import React, { useState, useEffect } from 'react';
 import styles from './breadcrumbs.module.css';
 import { useLocation, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { SET_SELECTED_TAG } from '../../services/actions/tagFilter';
 
 export default function Breadcrubs() {
   const [path, setPath] = useState('');
   const location = useLocation();
   const dispatch = useDispatch();
+  const { category, id } = useParams();
+  const [lastCrumb, setLastCrumb] = useState(null);
+
+  const { news } = useSelector((store) => store.news);
+
+  console.log(lastCrumb);
 
   useEffect(() => {
-    if (location.pathname.split('/')[1] === 'news') {
-      setPath('Новости');
-    } else if (location.pathname.split('/')[1] === 'blogs') {
-      setPath('Блоги');
-    } else {
-      setPath('Каналы');
+    if (news) {
+      if (location.pathname.split('/')[1] === 'news') {
+        setPath('Новости');
+      } else if (location.pathname.split('/')[1] === 'blogs') {
+        setPath('Блоги');
+      } else {
+        setPath('Каналы');
+      }
+      setLastCrumb(news.filter((x) => x._id === id)[0]);
     }
-    console.log()
-  }, [location]);
+  }, [location, id, news]);
 
   const setCategory = () => {
-    dispatch({
-        action: SET_SELECTED_TAG,
-        filter: ''
-    })
-  }
-
+      dispatch({
+        type: SET_SELECTED_TAG,
+        filter: lastCrumb.category,
+      });
+  };
 
   return (
-    <div className={styles.container}>
-        <Link to={`/`}className={styles.crumb}>Главная&nbsp;</Link>{` / `}
-      <Link onClick={()=>{console.log('haha')}} to={`/${location.pathname.split('/')[1]}`}className={styles.crumb}>&nbsp;{path}&nbsp;</Link>{` / `}
-    </div>
+    <>
+      {lastCrumb && (
+        <div className={styles.container}>
+          <a href={`/`} className={styles.crumb}>
+            Главная&nbsp;
+          </a>
+          {` / `}
+          <Link
+            to={`/${location.pathname.split('/')[1]}`}
+            className={styles.crumb}
+          >
+            &nbsp;{path}&nbsp;
+          </Link>
+          {` / `}
+          <Link
+            onClick={() => {
+              setCategory();
+            }}
+            to={`/${location.pathname.split('/')[1]}/${lastCrumb.category}`}
+            className={styles.crumb}
+          >
+            &nbsp;{category}&nbsp;
+          </Link>
+          {` / `}
+          <span>&nbsp;{lastCrumb .heading}</span>
+        </div>
+      )}
+    </>
   );
 }

@@ -1,7 +1,9 @@
-import { SET_SELECTED_TAG, UPDATE_CATEGORIES_LIST } from '../actions/tagFilter';
+import { SET_SELECTED_TAG, GET_TAGS, GET_TAGS_SUCCESS, GET_TAGS_FAILURE } from '../actions/tagFilter';
 
 const initialState = {
-  currentFilter: 'all',
+  currentFilter: 'Все',
+  tagsRequest: false,
+  tagsRequestFailed: false,
   categories: [
     'Политика',
     'Общество',
@@ -27,12 +29,28 @@ export const tagFilterReducer = (state = initialState, action) => {
         currentFilter: action.filter,
       };
     }
-    case UPDATE_CATEGORIES_LIST: {
+    case GET_TAGS: {
       return {
         ...state,
-        categories: action.categories,
+        tagsRequest: true,
       };
     }
+    case GET_TAGS_SUCCESS: {
+      return {
+        ...state,
+        tagsRequest: false,
+        tagsRequestFailed: false,
+        categories: action.categories
+      };
+    }
+    case GET_TAGS_FAILURE: {
+        return {
+          ...state,
+          tagsRequest: false,
+          tagsRequestFailed: true,
+        };
+      }
+
     default: {
       return state;
     }
