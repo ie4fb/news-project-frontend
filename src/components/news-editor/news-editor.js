@@ -135,7 +135,7 @@ export default function NewsEditor( {content} ) {
   //const { raw, editorState, paste } = this.state;
   return (
     <>
-      <NewsArticle data={content} />
+      <NewsArticle content={content} />
       <div style={{ marginLeft: '80px' }}>
         <div className='App-label'>editor</div>
         <MegadraftEditor

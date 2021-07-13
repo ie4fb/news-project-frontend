@@ -4,12 +4,18 @@ export const register = (user) => {
   return fetch(`${baseUrl}/signup`, {
     method: "POST",
     headers: headers,
-    credentials: "include",
     body: JSON.stringify(user),
   }).then(checkError);
 };
 
-export const login = (user) => {
+export const checkRequest = () => {
+  return fetch(`${baseUrl}/check`, {
+    headers: headers,
+    credentials: "include",
+  }).then(checkError);
+};
+
+export const loginRequest = (user) => {
   return fetch(`${baseUrl}/signin`, {
     method: "POST",
     headers: headers,
