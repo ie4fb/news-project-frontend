@@ -14,7 +14,6 @@ export default function Breadcrubs() {
 
   const { news } = useSelector((store) => store.news);
 
-  console.log(lastCrumb);
 
   useEffect(() => {
     if (news) {

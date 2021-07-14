@@ -10,12 +10,15 @@
   font-family: 'Nunito', helvetica, sans-serif;
   font-size: 16px;
   line-height: 22px;
-  box-sizing: border-box;
+  color: #ffffff;
+  background: #232232;
+  opacity: 0.9;
   border-radius: 4px;
-  padding: 0 8px;
   width: fit-content;
+  padding: 1px 8px;
   margin: 0;
 }
+
 .tag_dark {
   border: 1px solid #ffffff;
   color: #fff;

@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { formatDate } from '../../utils/utils';
 import commentsIcon_light from '../../images/icons/comments_light.svg';
-import useWindowSize from '../../hooks/useWindowSize';
 
 export default function NewsItemHorizontalImage({
   item,
@@ -11,30 +10,26 @@ export default function NewsItemHorizontalImage({
   isFirstBlock,
   maxTextLength,
   maxHeadingLength,
+  isMobile
 }) {
   const history = useHistory();
-  const [isMobile, setIsMobile] = useState(false);
   const openArticle = () => {
     history.push(`/news/${item.category}/${item._id}`);
   };
-
-  const windowSize = useWindowSize();
-
-  useEffect(() => {
-    windowSize.width > 768 ? setIsMobile(false) : setIsMobile(true);
-  }, [windowSize]);
 
   const formattedDate = item ? formatDate(item) : '';
   return (
     <>
       {item && (
-        <div className={styles.wrapper} style={{ gridArea: additionalStyle }}>
+        <div onClick={openArticle} className={styles.wrapper} style={{ gridArea: additionalStyle }}>
+          <div className={`${styles.line} ${styles.line_top}`}></div>
+          <div className={`${styles.line} ${styles.line_bottom}`}></div>
           <img
             className={styles.image}
             src={item.image}
             alt='изображение новости'
           />
-          <div onClick={openArticle} className={styles.container}>
+          <div className={styles.container}>
             <p className={`${styles.tag}`}>{item.category}</p>
             <h3 className={styles.heading}>
               {' '}
