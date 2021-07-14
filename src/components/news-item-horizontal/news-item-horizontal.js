@@ -4,20 +4,19 @@ import { useHistory } from 'react-router';
 import { formatDate } from '../../utils/utils';
 import commentsIcon_light from '../../images/icons/comments_light.svg';
 import { getExchangeRates } from '../../utils/api';
-import useWindowSize from '../../hooks/useWindowSize';
+import CurrencyBlock from '../currency-block/currency-block';
 
 export default function MewsItemHorizontal({
   item,
   additionalStyle,
   isFirstBlock,
   maxTextLength,
-  maxHeadingLength
+  maxHeadingLength,
+  isMobile,
+  isBottom
 }) {
   const history = useHistory();
   const [exchangeRates, setExchangeRates] = useState(null);
-  const [isMobile, setIsMobile] = useState(false);
-  const windowSize = useWindowSize();
-
   const openArticle = () => {
     history.push(`/news/${item.category}/${item._id}`);
   };
@@ -65,13 +64,18 @@ export default function MewsItemHorizontal({
   return (
     <>
       {item && (
-        <div className={styles.wrapper} style={{ gridArea: additionalStyle }}>
+        <div className={`${styles.wrapper} ${isBottom?styles.wrapper_bottom : ''}`}style={{ gridArea: additionalStyle }}>
           <div onClick={openArticle} className={styles.container}>
             <p className={`${styles.tag}`}>{item.category}</p>
-            <h3 className={styles.heading}> {`${
-                item.heading.split('').slice(0, maxHeadingLength).join('') +
-                '...'
-              }`}</h3>
+            <h3 className={styles.heading}>
+              {' '}
+              {`${
+                item.heading.split('').length > maxHeadingLength
+                  ? item.heading.split('').slice(0, maxHeadingLength).join('') +
+                    '...'
+                  : item.heading
+              }`}
+            </h3>
             <p className={styles.text}>
               {`${
                 item.description.split('').slice(0, maxTextLength).join('') +
@@ -92,27 +96,7 @@ export default function MewsItemHorizontal({
               </div>
             </div>
           </div>
-          {isFirstBlock && (
-            <div className={styles.currency}>
-              <h3 className={`${styles.heading} ${styles.heading_currency}`}>Курсы валют</h3>
-              {exchangeRates && (
-                <>
-                  <div className={styles.currency_container}>
-                    <p className={styles.currency_name}>USD</p>
-                    <p className={styles.currency_value}>{exchangeRates.usd}</p>
-                  </div>
-                  <div className={styles.currency_container}>
-                    <p className={styles.currency_name}>EUR</p>
-                    <p className={styles.currency_value}>{exchangeRates.eur}</p>
-                  </div>
-                  <div className={styles.currency_container}>
-                    <p className={styles.currency_name}>GBP</p>
-                    <p className={styles.currency_value}>{exchangeRates.gbp}</p>
-                  </div>
-                </>
-              )}
-            </div>
-          )}
+          {isFirstBlock && <CurrencyBlock />}
         </div>
       )}
     </>

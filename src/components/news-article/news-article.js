@@ -7,7 +7,7 @@ import { convertFromRaw, convertToRaw, EditorState } from 'draft-js';
 import TagsSection from '../tags-section/tags-section';
 import Commentaries from '../commentaries/commentaries';
 import { useParams } from 'react-router';
-
+import { useSelector } from 'react-redux';
 
 const getFormattedDate = (rawDate) => {
   const date = new Date();
@@ -50,10 +50,14 @@ const processRenderData = (data) => {
   return { raw, heading, date, link, categories, commentaries };
 };
 
-export default function NewsArticle({ content }) {
+export default function NewsArticle( ) {
   const { id } = useParams();
 
-  const data = content.find((item) => item._id === id);
+  const { news } = useSelector(store => store.news)
+
+  const data = news ? news.find((item) => item._id === id): null;
+
+
 
   const { raw, heading, date, link, categories, commentaries } = data
     ? processRenderData(data)
@@ -65,7 +69,9 @@ export default function NewsArticle({ content }) {
         categories: null,
         commentaries: null,
       };
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const addBreaklines = (children) => children.map((child) => [child, <br />]);
 
   const isEmptyRaw = (raw) =>
@@ -136,7 +142,7 @@ export default function NewsArticle({ content }) {
       <article className='news-article'>
         {/* eslint-disable-next-line react/no-unescaped-entities */}
         {isEmpty && (
-          <div className='news-article_empty'>There's nothing to render...</div>
+          <div className='news-article_empty'>Статья скоро появится...</div>
         )}
         {!isEmpty && (
           <>

@@ -13,16 +13,13 @@ export default function Tab({ path, label, onClick, activeTab }) {
     } else {
       setIsActive(false);
     }
+    console.log(path, history.location.pathname);
   }, [history.location.pathname, path]);
 
   return (
-    <div
-      className={tabStyles.tab}
-      onClick={() => {
+      <Link onClick={() => {
         onClick(path);
-      }}
-    >
-      <Link className={tabStyles.link} to={path}>
+      }} className={tabStyles.link} to={path}>
         <p
           className={`${tabStyles.label} ${
             isActive ? tabStyles.label_inactive : ' '
@@ -32,6 +29,5 @@ export default function Tab({ path, label, onClick, activeTab }) {
         </p>
         {isActive && <div className={tabStyles.active_indicator}></div>}
       </Link>
-    </div>
   );
 }

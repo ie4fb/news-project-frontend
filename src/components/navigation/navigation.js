@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 import React, { useEffect, useState, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
-import useWindowSize from '../../hooks/useWindowSize';
 import navigationStyles from './navigation.module.css';
+import { useSelector } from 'react-redux';
 
 function Navigation({ isNavbarActive, activeTab, handleTabChange, handleMenuClick }) {
   const [isNavbarVisible, setIsNavbarVisible] = useState(false);
@@ -13,7 +13,7 @@ function Navigation({ isNavbarActive, activeTab, handleTabChange, handleMenuClic
   const blogsLinkRef = useRef(null);
   const channelsLinkRef = useRef(null);
 
-  const windowSize = useWindowSize();
+  const { windowSize } = useSelector(store => store.app);
 
   useEffect(() => {
     isNavbarActive ? initiateMountSequence() : initiateUnmountSequence();

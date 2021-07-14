@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
-import useWindowSize from '../../hooks/useWindowSize';
 import headerStyles from './header.module.css';
 import Tab from '../tab/tab';
 import { useHistory } from 'react-router';
 import TimeBoard from '../time-board/time-board';
 import Navigation from '../navigation/navigation';
+import { useSelector } from 'react-redux';
 
 export default function AppHeader({handleMenuClick, isNavbarActive}) {
   const [activeTab, setActiveTab] = useState('/');
@@ -13,12 +13,12 @@ export default function AppHeader({handleMenuClick, isNavbarActive}) {
   const handleTabChange = (path) => {
     setActiveTab(path);
   };
+  const { windowSize } = useSelector(store => store.app);
 
   useEffect(() => {
     setActiveTab(history.location.pathname);
   },[])
 
-  const windowSize = useWindowSize();
 
   return (
     <header className={headerStyles.header}>
@@ -36,7 +36,7 @@ export default function AppHeader({handleMenuClick, isNavbarActive}) {
                 onClick={handleTabChange}
               />
               <Tab
-                path='/blog'
+                path='/blogs'
                 label='блоги'
                 activeTab={activeTab}
                 onClick={handleTabChange}

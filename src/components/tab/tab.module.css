@@ -6,6 +6,7 @@
   text-decoration: none;
   display: flex;
   flex-direction: column;
+  padding-top: 28px;
 }
 .label {
   font-family: 'Nunito', helvetica, sans-serif;
@@ -13,11 +14,11 @@
   font-weight: 700;
   font-size: 18px;
   line-height: 25px;
-  color: #fff;
   margin: 0;
+  color: #a259ff;
 }
 .label_inactive {
-  color: #a259ff;
+  color: #fff;
 }
 .active_indicator {
   width: 100%;

@@ -6,6 +6,7 @@
   width: 100%;
   padding: 0;
   height: 90px;
+  min-width: 360px;
 }
 .wrapper {
   width: calc(100% - 160px);
@@ -95,6 +96,7 @@
   .wrapper {
     width: calc(100% - 30px);
   }
+  
 }
 @media screen and (min-width: 1440px) {
   .tabs {

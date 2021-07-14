@@ -1,4 +1,4 @@
-export const baseUrl = "http://localhost:3001";
+export const baseUrl = "https://api.news-project.ner.works";
 
 export const headers = {
   "Content-Type": "application/json",
