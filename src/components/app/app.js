@@ -109,6 +109,7 @@ function App() {
           topRenderCount +
           renderCount
       );
+      console.log(topBlockChunk, largeBlockChunk, bottomBlockChunk);
       dispatch({
         type: SET_DATA_CHUNKS,
         topBlockChunk: topBlockChunk,

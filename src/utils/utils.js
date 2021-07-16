@@ -1,4 +1,4 @@
-export const baseUrl = "https://api.news-project.ner.works";
+export const baseUrl = "http://127.0.0.1:3001";
 
 export const headers = {
   "Content-Type": "application/json",
@@ -24,7 +24,7 @@ export const checkError = async (res) => {
 };
 
 export const formatDate = (item) => {
-  const date = new Date();
+  const date = new Date(Date.parse(item.date));
   const months = [
     '',
     'Января',
@@ -40,6 +40,7 @@ export const formatDate = (item) => {
     'Ноября',
     'Декабря',
   ];
+
   const formattedDate = `${
     date.toISOString(item.date).split('').slice(0, 10).join('').split('-')[2]
   } ${
