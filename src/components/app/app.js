@@ -18,6 +18,7 @@ import Login from '../login/login';
 // import Admin from '../admin/admin';
 import { ProtectedRoute } from '../protected-route/protected-route';
 import useWindowSize from '../../hooks/useWindowSize';
+import Admin from '../admin/admin';
 import {
   SET_RENDER_COUNT,
   SET_TOP_RENDER_COUNT,
@@ -211,11 +212,14 @@ function App() {
           <Login />
         </Route>
         <ProtectedRoute path={`/admin`} exact={true}>
-          {content && <NewsEditor content={content} />}
+          <Admin />
         </ProtectedRoute>
-        <Route>
+        <ProtectedRoute path={'/admin/edit/:id'} exact={true}>
+          <NewsEditor />
+        </ProtectedRoute>
+        {/* <Route>
           <Redirect to={'/'} />
-        </Route>
+        </Route> */}
       </Switch>
       <Footer />
     </Router>

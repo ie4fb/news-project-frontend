@@ -1,18 +1,29 @@
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import cn from "classnames";
 import useFormWithValidation from "../../hooks/useFormWithValidation";
 import { login } from "../../services/actions/login";
 
+import { useHistory } from "react-router";
 import styles from "./login.module.css";
 
 function Login() {
   const { values, errors, isValid, handleChange, resetForm } = useFormWithValidation();
   const dispatch = useDispatch();
+  const history = useHistory();
+
+  const { isLoggedIn } = useSelector(store => store.login);
+
+  useEffect(()=> {
+    if(isLoggedIn) {
+      history.push('/admin');
+    }
+  }, [isLoggedIn, history]);
 
   useEffect(() => {
     resetForm();
   }, [resetForm]);
+
 
   function handleSubmit(e) {
     e.preventDefault();
