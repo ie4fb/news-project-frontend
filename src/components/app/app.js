@@ -1,50 +1,50 @@
-import { useState, useEffect, useCallback } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Router, Route, useHistory, Switch, Redirect } from 'react-router-dom';
-import AppHeader from '../header/header';
-import { getNewsData } from '../../services/actions/news';
-import { getTagsData } from '../../services/actions/tagFilter';
+import { useState, useEffect, useCallback } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { Router, Route, useHistory, Switch, Redirect } from "react-router-dom";
+import AppHeader from "../header/header";
+import { getNewsData } from "../../services/actions/news";
+import { getTagsData } from "../../services/actions/tagFilter";
 
-import Main from '../main/main';
-import NewsEditor from '../news-editor/news-editor';
-import NewsArticle from '../news-article/news-article';
-import Footer from '../footer/footer';
-import TagsFilter from '../tags-filter/tags-filter';
-import NewsBlockTop from '../news-block-top/news-block-top';
-import NewsBlockBottom from '../news-block-bottom/news-block-bottom';
-import Breadcrubs from '../breadcrumbs/breadcrumbs';
-import NewsBlockLarge from '../news-block-large/news-block-large';
-import Login from '../login/login';
+import Main from "../main/main";
+import NewsEditor from "../news-editor/news-editor";
+import NewsArticle from "../news-article/news-article";
+import Footer from "../footer/footer";
+import TagsFilter from "../tags-filter/tags-filter";
+import NewsBlockTop from "../news-block-top/news-block-top";
+import NewsBlockBottom from "../news-block-bottom/news-block-bottom";
+import Breadcrubs from "../breadcrumbs/breadcrumbs";
+import NewsBlockLarge from "../news-block-large/news-block-large";
+import Login from "../login/login";
 // import Admin from '../admin/admin';
-import { ProtectedRoute } from '../protected-route/protected-route';
-import useWindowSize from '../../hooks/useWindowSize';
-import Admin from '../admin/admin';
+import { ProtectedRoute } from "../protected-route/protected-route";
+import useWindowSize from "../../hooks/useWindowSize";
+import Admin from "../admin/admin";
 import {
   SET_RENDER_COUNT,
   SET_TOP_RENDER_COUNT,
   SET_DATA_CHUNKS,
-} from '../../services/actions/news';
+} from "../../services/actions/news";
 import {
   TOGGLE_MOBILE_STATE,
   SET_WINDOW_SIZE,
-} from '../../services/actions/app';
+} from "../../services/actions/app";
 
-import appStyles from './app.module.css';
+import appStyles from "./app.module.css";
 
 const tags = [
-  'Политика',
-  'Общество',
-  'Бизнес',
-  'Экономика',
-  'Происшествия',
-  'Мир',
-  'Инвестировать',
-  'Телекоммуникации',
-  'Финансы. Рынок',
-  'Занять',
-  'В городе',
-  'Культура',
-  'Спорт',
+  "Политика",
+  "Общество",
+  "Бизнес",
+  "Экономика",
+  "Происшествия",
+  "Мир",
+  "Инвестировать",
+  "Телекоммуникации",
+  "Финансы. Рынок",
+  "Занять",
+  "В городе",
+  "Культура",
+  "Спорт",
 ];
 
 function App() {
@@ -78,7 +78,7 @@ function App() {
   const createDataBatch = useCallback(
     (news, currentFilter) => {
       const categoryNews =
-        currentFilter === 'Все'
+        currentFilter === "Все"
           ? news
           : news.filter((item) => item.category === currentFilter);
       const totalNewsItems = !isMobile
@@ -133,7 +133,7 @@ function App() {
       categories.forEach((tag) => {
         newsByCategory[tag] = news.filter((item) => item.category === tag);
       });
-      newsByCategory['Все'] = news;
+      newsByCategory["Все"] = news;
       setContent(news);
       setNewsByCategory(newsByCategory);
     }
@@ -167,19 +167,20 @@ function App() {
   useEffect(() => {
     dispatch(getNewsData());
     dispatch(getTagsData());
-    
   }, [dispatch]);
-  useEffect(() => {dispatch({ type: SET_WINDOW_SIZE, windowSize: windowSize });}, [])
+  useEffect(() => {
+    dispatch({ type: SET_WINDOW_SIZE, windowSize: windowSize });
+  }, []);
 
   return (
-    <Router history={history} basename='/'>
+    <Router history={history} basename="/">
       <AppHeader
         handleMenuClick={handleMenuClick}
         isNavbarActive={isNavbarActive}
       />
       <Switch>
-        <Route exact path='/news'>
-          <TagsFilter place={'/news'} categories={tags} />
+        <Route exact path="/news">
+          <TagsFilter place={"/news"} categories={tags} />
           <Main>
             <>
               <NewsBlockTop />
@@ -189,8 +190,8 @@ function App() {
             </>
           </Main>
         </Route>
-        <Route exact path='/news/:category'>
-          <TagsFilter place={'/news'} categories={tags} />
+        <Route exact path="/news/:category">
+          <TagsFilter place={"/news"} categories={tags} />
           <Main>
             <NewsBlockTop />
             <NewsBlockLarge />
@@ -198,7 +199,7 @@ function App() {
             {/* <NewsEditor content={content} /> */}
           </Main>
         </Route>
-        <Route exact path='/news/:category/:id'>
+        <Route exact path="/news/:category/:id">
           <Main>
             <>
               <Breadcrubs />
@@ -206,20 +207,20 @@ function App() {
             </>
           </Main>
         </Route>
-        <Route exact path='/blogs'></Route>
-        <Route exact path='/channels'></Route>
-        <Route exact path='/login'>
+        <Route exact path="/blogs"></Route>
+        <Route exact path="/channels"></Route>
+        <Route exact path="/login">
           <Login />
         </Route>
         <ProtectedRoute path={`/admin`} exact={true}>
           <Admin />
         </ProtectedRoute>
-        <ProtectedRoute path={'/admin/edit/:id'} exact={true}>
+        <ProtectedRoute path={"/admin/edit/:id"} exact={true}>
           <NewsEditor />
         </ProtectedRoute>
-        {/* <Route>
-          <Redirect to={'/'} />
-        </Route> */}
+        <Route>
+          <Redirect to={"/"} />
+        </Route>
       </Switch>
       <Footer />
     </Router>
