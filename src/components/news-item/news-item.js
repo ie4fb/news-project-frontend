@@ -20,6 +20,7 @@ export default function NewsItem({ item, type, index, maxCount }) {
   useEffect(() => {});
 
   const formattedDate = formatDate(item);
+  console.log(formatDate(item))
 
   return (
     <>
