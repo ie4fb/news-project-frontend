@@ -30,5 +30,8 @@
     .heading {
       width: calc(100% - 30px);
     }
+    .container {
+      margin-bottom: 15px;
+    }
   }
   

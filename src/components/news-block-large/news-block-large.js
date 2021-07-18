@@ -6,6 +6,7 @@ import NewsItemHorizontal from '../news-item-horizontal/news-item-horizontal';
 import NewsItemHorizontalImage from '../news-item-horizontal-image/news-item-horizontal-image';
 import CurrencyBlock from '../currency-block/currency-block';
 import { useSelector } from 'react-redux';
+import NewsItemMobile from '../news-item-mobile/news-item-mobile';
 
 export default function NewsBlockLarge() {
   const { isMobile, windowSize } = useSelector((store) => store.app);
@@ -40,12 +41,12 @@ export default function NewsBlockLarge() {
               }
               isFirstBlock={false}
               additionalStyle={'single'}
-              item={isMobile?largeBlockChunk[1]: largeBlockChunk[2]}
+              item={isMobile ? largeBlockChunk[1] : largeBlockChunk[2]}
               isMobile={isMobile}
             />
             <NewsItemVertical
-              additionalStyle={'vertical_bottom'}
-              item={isMobile?largeBlockChunk[2]: largeBlockChunk[3]}
+              additionalStyle={'vertical_middle'}
+              item={isMobile ? largeBlockChunk[2] : largeBlockChunk[3]}
               showLine={isMobile ? false : true}
               isMobile={isMobile}
               maxTextLength={300}
@@ -58,6 +59,23 @@ export default function NewsBlockLarge() {
                 maxHeadingLength={windowSize.width > 1200 ? 50 : 20}
                 isMobile={isMobile}
               />
+            )}
+            {isMobile && (
+              <>
+                <div className={styles.news_wrapper}>
+                  <NewsItemMobile item={largeBlockChunk[3]} />
+                  <NewsItemMobile item={largeBlockChunk[4]} />
+                  <NewsItemMobile item={largeBlockChunk[5]} />{' '}
+                  <div className={styles.news_wrapper_line}> </div>
+                </div>
+                <NewsItemVertical
+                  additionalStyle={'vertical_bottom'}
+                  item={largeBlockChunk[6]}
+                  showLine={isMobile ? false : true}
+                  isMobile={isMobile}
+                  maxTextLength={300}
+                />
+              </>
             )}
           </div>
         </section>

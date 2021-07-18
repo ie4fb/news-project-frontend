@@ -56,9 +56,6 @@ export default function MewsItemHorizontal({
       );
     }
   }, []);
-  useEffect(() => {
-    console.log(exchangeRates);
-  }, [exchangeRates]);
 
   const formattedDate = item ? formatDate(item) : '';
   return (

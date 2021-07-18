@@ -23,10 +23,6 @@ function Navigation({ isNavbarActive, activeTab, handleTabChange, handleMenuClic
     windowSize.width < 768 ? setIsMobile(true) : setIsMobile(false);
   }, [windowSize]);
 
-  useEffect(() => {
-    console.log(activeTab);
-  }, [activeTab]);
-
   const initiateMountSequence = () => {
     setIsNavbarMounted(true);
     document.body.style.overflow = 'hidden';

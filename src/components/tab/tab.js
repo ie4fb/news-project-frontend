@@ -13,7 +13,6 @@ export default function Tab({ path, label, onClick, activeTab }) {
     } else {
       setIsActive(false);
     }
-    console.log(path, history.location.pathname);
   }, [history.location.pathname, path]);
 
   return (

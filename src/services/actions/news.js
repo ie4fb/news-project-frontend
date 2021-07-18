@@ -5,6 +5,7 @@ export const GET_NEWS_FAILURE = 'SET_NEWS_SUCCESS';
 export const SET_RENDER_COUNT = 'SET_RENDER_COUNT';
 export const SET_TOP_RENDER_COUNT = 'SET_TOP_RENDER_COUNT';
 export const SET_DATA_CHUNKS = 'SET_DATA_CHUNKS'
+export const RENDER_ADDITIONAL_CHUNKS = 'RENDER_ADDITIONAL_CHUNKS'
 
 export function getNewsData() {
   return function (dispatch) {
