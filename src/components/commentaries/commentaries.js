@@ -51,6 +51,7 @@ export default function Commentaries({ data, editMode }) {
       <form className={styles.edit_container} onSubmit={onSubmit}>
         <input
           minLength='2'
+          maxLength='40'
           className={`${styles.input_name} ${styles.input}`}
           placeholder='Ваше имя'
           name='author'
@@ -58,6 +59,7 @@ export default function Commentaries({ data, editMode }) {
         />
         <textarea
           minLength='2'
+          maxlength="150"
           className={`${styles.input_text} ${styles.input}`}
           placeholder='Ваш комментарий'
           name='text'

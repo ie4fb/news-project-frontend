@@ -31,7 +31,7 @@ import {
 import ShowMore from '../show-more/show-more';
 import NewsBlockAdditional from '../news-block-additional/news-block-additional';
 
-import appStyles from './app.module.css';
+//import appStyles from './app.module.css';
 
 const tags = [
   'Политика',
@@ -52,14 +52,14 @@ const tags = [
 function App() {
   const [isNavbarActive, setIsNavbarActive] = useState(false);
 
-  const [dataBatch, setDataBatch] = useState(null);
+  // const [dataBatch, setDataBatch] = useState(null);
 
   //const [news, setNews] = useState(null);
   const history = useHistory();
   const dispatch = useDispatch();
 
   const [content, setContent] = useState(null);
-  const [newsByCategory, setNewsByCategory] = useState(null);
+  // const [newsByCategory, setNewsByCategory] = useState(null);
 
   const {
     news,
@@ -71,7 +71,7 @@ function App() {
   } = useSelector((state) => state.news);
 
   const { isMobile } = useSelector((store) => store.app);
-  const { categories } = useSelector((state) => state.tagFilter);
+  // const { categories } = useSelector((state) => state.tagFilter);
   const { currentFilter } = useSelector((state) => state.tagFilter);
   const windowSize = useWindowSize();
 
@@ -159,15 +159,9 @@ function App() {
 
   useEffect(() => {
     if (news && news.length) {
-      const newsByCategory = {};
-      categories.forEach((tag) => {
-        newsByCategory[tag] = news.filter((item) => item.category === tag);
-      });
-      newsByCategory['Все'] = news;
       setContent(news);
-      setNewsByCategory(newsByCategory);
     }
-  }, [news, categories]);
+  }, [news]);
 
   const handleMenuClick = () => {
     setIsNavbarActive((prevState) => !prevState);
@@ -198,6 +192,7 @@ function App() {
     dispatch(getNewsData());
     dispatch(getTagsData());
   }, [dispatch]);
+
   useEffect(() => {
     dispatch({ type: SET_WINDOW_SIZE, windowSize: windowSize });
   }, [dispatch]);

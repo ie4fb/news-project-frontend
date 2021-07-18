@@ -10,7 +10,7 @@
 }
 .news {
     list-style-type: none;
-    margin: 20px auto 80px auto;
+    margin: 20px auto 15px auto;
     padding: 0;
     display: flex;
     flex-direction: column;
@@ -41,4 +41,29 @@
 .item_image {
     width: 150px;
     height: 80px;
+}
+.button_contaner {
+    display: flex;
+    gap: 10px;
+    margin: 0 auto 80px 0;  
+    justify-content: center;
+}
+.page_button {
+    width: 40px;
+    height: 30px;
+    background: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-family: "Nunito", helvetica, sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: #a259ff;
+    transition: all 0.1s ease-in-out;
+}
+.page_button:hover {
+    outline: 2px solid #a259ff;
+}
+.page_button_active {
+    outline: 2px solid #a259ff;
 }
