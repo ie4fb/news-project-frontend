@@ -8,9 +8,11 @@ import TagsSection from '../tags-section/tags-section';
 import Commentaries from '../commentaries/commentaries';
 import { useParams } from 'react-router';
 import { useSelector } from 'react-redux';
+import { formatDate } from '../../utils/utils';
 
 const getFormattedDate = (rawDate) => {
   const date = new Date();
+
   const months = [
     '',
     'Января',
@@ -50,14 +52,12 @@ const processRenderData = (data) => {
   return { raw, heading, date, link, categories, commentaries };
 };
 
-export default function NewsArticle( ) {
+export default function NewsArticle({ editMode, editModeData }) {
   const { id } = useParams();
 
-  const { news } = useSelector(store => store.news)
+  const { news } = useSelector((store) => store.news);
 
-  const data = news ? news.find((item) => item._id === id): null;
-
-
+  const data = news ? news.find((item) => item._id === id) : null;
 
   const { raw, heading, date, link, categories, commentaries } = data
     ? processRenderData(data)
@@ -149,7 +149,11 @@ export default function NewsArticle( ) {
             <h1 className={'news-article__heading'}>{heading}</h1>
             <span className={'news-article__date'}>{date}</span>
             <div className={'news-article__content'}>
-              {redraft(raw, { inline, blocks, entities }, options)}
+              {redraft(
+                editMode ? convertToRaw(editModeData.getCurrentContent()) : raw,
+                { inline, blocks, entities },
+                options
+              )}
             </div>
             <p className={'news-article__source'}>
               Статья взята с сайта{' '}
@@ -161,7 +165,7 @@ export default function NewsArticle( ) {
           </>
         )}
       </article>
-      <Commentaries data={commentaries} />
+      <Commentaries data={commentaries} editMode={editMode} />
     </>
   );
 }
