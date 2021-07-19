@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect } from 'react';
 import {
   getNews,
   getTags,
@@ -11,65 +11,68 @@ import {
   deleteNews,
   putComment,
   deleteComment,
-} from "./api";
+} from './api';
 
 const userSample = {
-  email: "test@example.com",
-  password: "test",
+  email: 'test@example.com',
+  password: 'test',
 };
-
-const newsSample = {
+export const newsSample = {
   renderData: {
     blocks: [
       {
-        key: "7mj9j",
-        text: "",
-        type: "atomic",
+        key: '7mj9j',
+        text: '',
+        type: 'atomic',
         depth: 0,
         inlineStyleRanges: [],
         entityRanges: [],
         data: {
-          src: "https://www.kommersant.ru/Issues.photo/DAILY/2021/119M/KNN_005236_00020_1_t219_223034.jpg",
-          type: "image",
-          display: "big",
+          src: 'https://www.kommersant.ru/Issues.photo/DAILY/2021/121/KMO_178291_00014_1_t219_224345.jpg',
+          type: 'image',
+          display: 'big',
         },
       },
       {
-        key: "3us89",
-        text: "test",
-        type: "header-two",
+        key: '3us89',
+        text: 'Заголовок новости',
+        type: 'header-two',
         depth: 0,
-        inlineStyleRanges: [
-          {
-            offset: 0,
-            length: 71,
-            style: "BOLD",
-          },
-        ],
+        inlineStyleRanges: [{ offset: 0, length: 17, style: 'BOLD' }],
+        entityRanges: [],
+        data: {},
+      },
+      {
+        key: 'fcu0j',
+        text: 'Текст новости',
+        type: 'unstyled',
+        depth: 0,
+        inlineStyleRanges: [],
         entityRanges: [],
         data: {},
       },
     ],
     entityMap: {},
   },
-  heading: "test2",
-  description: "test testovich",
-  link: "https://www.kommersant.ru/doc/4898417",
+  heading: 'Заголовок карточки',
+  description:
+    'Текст новости в карточке',
+  link: 'https://ya.ru',
   image:
-    "https://www.kommersant.ru/Issues.photo/DAILY/2021/119M/KNN_005236_00020_1_t219_223034.jpg",
-  date: "Mon, 12 Jul 2021 00:39:00 +0300",
-  category: "test",
+    'https://www.kommersant.ru/Issues.photo/DAILY/2021/121/KMO_178291_00014_1_t219_224345.jpg',
+  date: 'Mon Jul 19 2021 16:57:19 GMT+0300',
+  category: 'Категория',
 };
 
-const idSample = "60ecbd37c05672079455248a";
+const idSample = '60ecbd37c05672079455248a';
 
 const commentSample = {
-  author: "Mark Zuckerberg",
-  date: "12 мая 14:88",
-  text: "Хочу передать привет бабушке",
+  author: 'Mark Zuckerberg',
+  date: '12 мая 14:88',
+  text: 'Хочу передать привет бабушке',
 };
 
-const commentIdSample = {comment : '60ecbe381537bd37e840a6cc'};
+const commentIdSample = { comment: '60ecbe381537bd37e840a6cc' };
 
 function Test() {
   useEffect(() => {

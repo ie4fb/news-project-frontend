@@ -7,6 +7,7 @@ import { getTagsData } from '../../services/actions/tagFilter';
 
 import Main from '../main/main';
 import NewsEditor from '../news-editor/news-editor';
+import NewsCreator from '../news-creator/news-creator';
 import NewsArticle from '../news-article/news-article';
 import Footer from '../footer/footer';
 import TagsFilter from '../tags-filter/tags-filter';
@@ -18,6 +19,7 @@ import Login from '../login/login';
 // import Admin from '../admin/admin';
 import { ProtectedRoute } from '../protected-route/protected-route';
 import useWindowSize from '../../hooks/useWindowSize';
+import AdminNews from '../admin-news/admin-news';
 import Admin from '../admin/admin';
 import {
   SET_RENDER_COUNT,
@@ -275,8 +277,14 @@ function App() {
         <ProtectedRoute path={`/admin`} exact={true}>
           <Admin />
         </ProtectedRoute>
-        <ProtectedRoute path={'/admin/edit/:id'} exact={true}>
+        <ProtectedRoute path={`/admin/news`} exact={true}>
+          <AdminNews />
+        </ProtectedRoute>
+        <ProtectedRoute path={'/admin/news/edit/:id'} exact={true}>
           <NewsEditor />
+        </ProtectedRoute>
+        <ProtectedRoute path={'/admin/news/add/'} exact={true}>
+          <NewsCreator />
         </ProtectedRoute>
         <Route>
           <Redirect to={'/'} />

@@ -26,8 +26,8 @@ export default function NewsBlockLarge() {
             />
             {!isMobile && (
               <NewsItemHorizontal
-                maxTextLength={windowSize.width > 1200 ? 180 : 50}
-                maxHeadingLength={windowSize.width > 1200 ? 50 : 20}
+                maxTextLength={windowSize.width > 1200 ? 350 : 150}
+                maxHeadingLength={windowSize.width > 1200 ? 100 : 50}
                 isFirstBlock={true}
                 additionalStyle={'horizontal'}
                 item={largeBlockChunk[1]}
@@ -35,9 +35,9 @@ export default function NewsBlockLarge() {
               />
             )}
             <NewsItemHorizontal
-              maxTextLength={windowSize.width > 1200 ? 80 : isMobile ? 150 : 50}
+              maxTextLength={windowSize.width > 1200 ? 120 : isMobile ? 150 : 120}
               maxHeadingLength={
-                windowSize.width > 1200 ? 50 : isMobile ? 100 : 20
+                windowSize.width > 1200 ? 50 : isMobile ? 100 : 50
               }
               isFirstBlock={false}
               additionalStyle={'single'}
@@ -56,7 +56,7 @@ export default function NewsBlockLarge() {
                 item={largeBlockChunk[4]}
                 maxTextLength={windowSize.width > 1200 ? 130 : 50}
                 additionalStyle={'horizontal_image'}
-                maxHeadingLength={windowSize.width > 1200 ? 50 : 20}
+                maxHeadingLength={windowSize.width > 1200 ? 50 : 50}
                 isMobile={isMobile}
               />
             )}

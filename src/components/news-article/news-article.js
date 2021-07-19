@@ -11,10 +11,11 @@ import { useSelector } from 'react-redux';
 import { formatDate } from '../../utils/utils';
 
 const getFormattedDate = (rawDate) => {
-  const date = new Date();
+
+  //const offset= new Date(rawDate).getTimezoneOffset()
+  const date = new Date(rawDate);
 
   const months = [
-    '',
     'Января',
     'Февраля',
     'Марта',
@@ -29,14 +30,12 @@ const getFormattedDate = (rawDate) => {
     'Декабря',
   ];
   const formattedDate = `${
-    date.toISOString(rawDate).split('').slice(0, 10).join('').split('-')[2]
+    date.toString().split('').slice(0, 15).join('').split(' ')[2]
   } ${
     months[
-      parseInt(
-        date.toISOString(rawDate).split('').slice(0, 10).join('').split('-')[1]
-      )
+      date.getMonth()
     ]
-  } ${date.toISOString(rawDate).split('').slice(0, 10).join('').split('-')[0]}`;
+  } ${date.getFullYear()}`;
 
   return formattedDate;
 };
@@ -50,14 +49,15 @@ const processRenderData = (data) => {
   const commentaries = data.comments;
 
   return { raw, heading, date, link, categories, commentaries };
+
 };
 
-export default function NewsArticle({ editMode, editModeData }) {
+export default function NewsArticle({ editMode, editModeData, createMode, sampleData }) {
   const { id } = useParams();
 
   const { news } = useSelector((store) => store.news);
 
-  const data = news ? news.find((item) => item._id === id) : null;
+  const data =createMode ? sampleData : news ? news.find((item) => item._id === id) : null;
 
   const { raw, heading, date, link, categories, commentaries } = data
     ? processRenderData(data)
@@ -91,7 +91,7 @@ export default function NewsArticle({ editMode, editModeData }) {
 
   const blocks = {
     unstyled: (children, { keys }) => (
-      <p key={keys[0]}>{addBreaklines(children)}</p>
+      <p key={Math.random().toString()}>{addBreaklines(children)}</p>
     ),
     atomic: getAtomic,
     blockquote: (children, { keys }) => (
@@ -165,7 +165,7 @@ export default function NewsArticle({ editMode, editModeData }) {
           </>
         )}
       </article>
-      <Commentaries data={commentaries} editMode={editMode} />
+     {!createMode && <Commentaries data={commentaries} editMode={editMode} /> } 
     </>
   );
 }

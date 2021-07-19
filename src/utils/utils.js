@@ -26,7 +26,6 @@ export const checkError = async (res) => {
 export const formatDate = (item) => {
   const date = new Date(item.date);
   const months = [
-    '',
     'Января',
     'Февраля',
     'Марта',
@@ -41,21 +40,12 @@ export const formatDate = (item) => {
     'Декабря',
   ];
   const formattedDate = `${
-    date.toISOString(item.date).split('').slice(0, 10).join('').split('-')[2]
+    date.toString().split('').slice(0, 15).join('').split(' ')[2]
   } ${
     months[
-      parseInt(
-        date
-          .toISOString(item.date)
-          .split('')
-          .slice(0, 10)
-          .join('')
-          .split('-')[1]
-      )
+      date.getMonth()
     ]
-  } ${
-    date.toISOString(item.date).split('').slice(0, 10).join('').split('-')[0]
-  }`;
+  } ${date.getFullYear()}`;
 
   return formattedDate
 }

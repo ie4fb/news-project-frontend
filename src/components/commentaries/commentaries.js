@@ -18,14 +18,16 @@ export default function Commentaries({ data, editMode }) {
       text: textInputRef.current.value,
       date: formatDate({ date: now }),
     };
+    nameInputRef.current.value = ''
+    textInputRef.current.value = ''
     putComment(item, id).then((data) => setComments(data.comments));
   };
 
   const onDelete = (item) => {
-    deleteComment({comment: item._id} , id).then((data) => {
-      setComments(data.comments)
+    deleteComment({ comment: item._id }, id).then((data) => {
+      setComments(data.comments);
     });
-  }
+  };
 
   const Commentary = ({ item }) => (
     <div className={styles.commentary}>
@@ -35,7 +37,9 @@ export default function Commentaries({ data, editMode }) {
       </div>
       <p className={styles.text}>{item.text}</p>
       {editMode ? (
-        <button onClick={() => onDelete(item)} className={styles.delete_button}>Удалить</button>
+        <button onClick={() => onDelete(item)} className={styles.delete_button}>
+          Удалить
+        </button>
       ) : null}
     </div>
   );
@@ -46,8 +50,12 @@ export default function Commentaries({ data, editMode }) {
     }
   }, [comments, data]);
 
-  const EditSection = ({ onSubmit, refs }) => {
-    return (
+
+
+  return (
+    <section className={styles.container}>
+      <h3 className={styles.heading}>Комментарии</h3>
+      {comments && comments.map((item) => <Commentary item={item} />)}
       <form className={styles.edit_container} onSubmit={onSubmit}>
         <input
           minLength='2'
@@ -55,29 +63,18 @@ export default function Commentaries({ data, editMode }) {
           className={`${styles.input_name} ${styles.input}`}
           placeholder='Ваше имя'
           name='author'
-          ref={refs.name}
+          ref={nameInputRef}
         />
         <textarea
           minLength='2'
-          maxlength="150"
+          maxlength='150'
           className={`${styles.input_text} ${styles.input}`}
           placeholder='Ваш комментарий'
           name='text'
-          ref={refs.text}
+          ref={textInputRef}
         />
         <button className={styles.button}>Отправить сообщение</button>
       </form>
-    );
-  };
-
-  return (
-    <section className={styles.container}>
-      <h3 className={styles.heading}>Комментарии</h3>
-      {comments && comments.map((item) => <Commentary item={item} />)}
-      <EditSection
-        onSubmit={onSubmit}
-        refs={{ name: nameInputRef, text: textInputRef }}
-      />
     </section>
   );
 }

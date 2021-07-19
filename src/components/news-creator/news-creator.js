@@ -7,16 +7,18 @@ import { MegadraftEditor, editorStateFromRaw } from 'megadraft';
 import 'megadraft/dist/css/megadraft.css';
 import { Link } from 'react-router-dom';
 import redraft from 'redraft';
-import styles from './news-editor.module.css';
+import styles from './news-creator.module.css';
 import AtomicBlock from '../news-article/atomic-block/atomic-block';
 import ImagePlugin from 'megadraft/lib/plugins/image/plugin';
 import NewsArticle from '../news-article/news-article';
 import { useSelector } from 'react-redux';
 import { updateNews } from '../../utils/api';
+import { newsSample } from '../../utils/test';
+import { postNews } from '../../utils/api';
 
-export default function NewsEditor({ content2 }) {
+export default function NewsCreator() {
   const { news } = useSelector((store) => store.news);
-  const { id } = useParams();
+
   const [content, setContent] = useState(null);
   const [initialState, setInitialState] = useState(null);
   const [editorState, setEditorState] = useState(null);
@@ -42,26 +44,23 @@ export default function NewsEditor({ content2 }) {
   };
 
   useEffect(() => {
-    console.log(editorState)
-  }, [editorState])
-
-  useEffect(() => {
-    if (news) {
-      setContent(news.find((item) => item._id === id));
+    if (newsSample) {
+      setContent(newsSample);
     }
     if (content) {
+      const date = new Date()
       setInitialState(editorStateFromRaw(content.renderData));
       setEditData({
         heading: content.heading,
         link: content.link,
         description: content.description,
-        date: content.date,
         category: content.category,
         image: content.image,
-        renderData: editData.renderData,
+        date: date,
+        renderData: content.renderData,
       });
     }
-  }, [news, id, content]);
+  }, [news, content]);
 
   useEffect(() => {
     if (initialState) {
@@ -89,15 +88,15 @@ export default function NewsEditor({ content2 }) {
     stateCopy.renderData = stateCopy.renderData
       ? stateCopy.renderData
       : convertToRaw(editorState.getCurrentContent());
-    console.log(stateCopy);
-    updateNews(stateCopy, content._id).then(() => setIsSuccessfull(true));
+    // updateNews(stateCopy, content._id).then(() => setIsSuccessfull(true));
+    postNews(stateCopy).then(() => history.push('/admin/news'));
   };
 
   return (
     <main className={styles.content}>
       <h2 className={styles.preview_heading}>Превью</h2>
       {editorState && (
-        <NewsArticle editMode={true} editModeData={editorState} />
+        <NewsArticle editMode={true} editModeData={editorState} createMode={true} sampleData={content}/>
       )}
       <h2 className={styles.preview_heading}>Редактор</h2>
       <div
@@ -155,7 +154,7 @@ export default function NewsEditor({ content2 }) {
         defaultValue={editData.category}
         min='2'
       />
-      <p className={styles.subheading}>Дата(лучше не трогать)</p>
+      <p className={styles.subheading}>Дата(Заполняется автоматически)</p>
       <input
         id='date'
         onChange={onChange}
@@ -171,7 +170,6 @@ export default function NewsEditor({ content2 }) {
         className={styles.input}
         defaultValue={editData.link}
         min='2'
-        disabled={true}
       />
       <button className={styles.button} onClick={onSave}>
         Сохранить

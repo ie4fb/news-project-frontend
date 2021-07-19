@@ -34,8 +34,8 @@ export default function NewsItem({ item, type, index, maxCount }) {
             type === 'dark' ? styles.heading_dark : ''
           }`}
         >
-          {item.heading.length > 33
-            ? item.heading.split('').slice(0, 33).join('') + '...'
+          {item.heading.length > 60
+            ? item.heading.split('').slice(0, 60).join('') + '...'
             : item.heading}
         </h2>
         <p
@@ -43,8 +43,8 @@ export default function NewsItem({ item, type, index, maxCount }) {
             type === 'dark' ? styles.text_dark : ''
           }`}
         >
-          {item.description.length > 75
-            ? item.description.split('').slice(0, 75).join('') + '...'
+          {item.description.length > 100
+            ? item.description.split('').slice(0, 100).join('') + '...'
             : item.description}
         </p>
         <div className={styles.bottom_wrapper}>

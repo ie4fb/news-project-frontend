@@ -33,7 +33,7 @@ export default function NewsBlockBottom({ type, chunk, index }) {
                         windowSize.width > 1200 ? 100 : isMobile ? 300 : 50
                       }
                       maxHeadingLength={
-                        windowSize.width > 1200 ? 30 : isMobile ? 40 : 20
+                        windowSize.width > 1200 ? 90 : isMobile ? 70 : 50
                       }
                       isFirstBlock={false}
                       additionalStyle={'horizontal'}
@@ -51,7 +51,7 @@ export default function NewsBlockBottom({ type, chunk, index }) {
                         windowSize.width > 1200 ? 100 : isMobile ? 300 : 50
                       }
                       maxHeadingLength={
-                        windowSize.width > 1200 ? 30 : isMobile ? 40 : 20
+                        windowSize.width > 1200 ? 90 : isMobile ? 90 : 50
                       }
                       isFirstBlock={false}
                       additionalStyle={'horizontal'}
