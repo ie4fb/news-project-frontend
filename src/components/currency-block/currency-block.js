@@ -5,37 +5,39 @@ import styles from './currency-block.module.css';
 export default function CurrencyBlock() {
   const [exchangeRates, setExchangeRates] = useState(null);
   useEffect(() => {
-    getExchangeRates().then((res) =>
-      setExchangeRates({
-        usd: `${
-          res.Valute.USD.Value.toString().split('.')[0] +
-          ',' +
-          res.Valute.USD.Value.toString()
-            .split('.')[1]
-            .split('')
-            .slice(0, 2)
-            .join('')
-        }`,
-        eur: `${
-          res.Valute.EUR.Value.toString().split('.')[0] +
-          ',' +
-          res.Valute.EUR.Value.toString()
-            .split('.')[1]
-            .split('')
-            .slice(0, 2)
-            .join('')
-        }`,
-        gbp: `${
-          res.Valute.GBP.Value.toString().split('.')[0] +
-          ',' +
-          res.Valute.GBP.Value.toString()
-            .split('.')[1]
-            .split('')
-            .slice(0, 2)
-            .join('')
-        }`,
-      })
-    );
+    getExchangeRates().then((res) => {
+      if (res.Valute) {
+        setExchangeRates({
+          usd: `${
+            res.Valute.USD.Value.toString().split('.')[0] +
+            ',' +
+            res.Valute.USD.Value.toString()
+              .split('.')[1]
+              .split('')
+              .slice(0, 2)
+              .join('')
+          }`,
+          eur: `${
+            res.Valute.EUR.Value.toString().split('.')[0] +
+            ',' +
+            res.Valute.EUR.Value.toString()
+              .split('.')[1]
+              .split('')
+              .slice(0, 2)
+              .join('')
+          }`,
+          gbp: `${
+            res.Valute.GBP.Value.toString().split('.')[0] +
+            ',' +
+            res.Valute.GBP.Value.toString()
+              .split('.')[1]
+              .split('')
+              .slice(0, 2)
+              .join('')
+          }`,
+        });
+      }
+    });
   }, []);
 
   return (

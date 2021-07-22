@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import { formatDate } from '../../utils/utils';
 import { useDispatch } from 'react-redux';
 import { getNewsData } from '../../services/actions/news';
-import { getTagsData } from '../../services/actions/tagFilter';
+import { getNewsTagsData } from '../../services/actions/newsTagFilter';
 import { deleteNews } from '../../utils/api';
 
 export default function AdminNews() {
@@ -15,7 +15,7 @@ export default function AdminNews() {
 
   useEffect(() => {
     dispatch(getNewsData());
-    dispatch(getTagsData());
+    dispatch(getNewsTagsData());
   }, [dispatch]);
 
   const [page, setPage] = useState(1);

@@ -9,13 +9,10 @@ import { formatDate } from '../../utils/utils';
 export default function NewsItem({ item, type, index, maxCount }) {
   const history = useHistory();
 
-  const [allowRender, setAllowRender] = useState(false);
 
   const openArticle = () => {
     history.push(`/news/${item.category}/${item._id}`);
   };
-
-  const { currentFilter } = useSelector((store) => store.tagFilter);
 
   useEffect(() => {});
 

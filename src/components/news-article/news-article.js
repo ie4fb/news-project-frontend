@@ -56,8 +56,9 @@ export default function NewsArticle({ editMode, editModeData, createMode, sample
   const { id } = useParams();
 
   const { news } = useSelector((store) => store.news);
+  const { blogs } = useSelector((store) => store.blogs);
 
-  const data =createMode ? sampleData : news ? news.find((item) => item._id === id) : null;
+  const data =createMode ? sampleData : news ? news.find((item) => item._id === id) || blogs.find((item) => item._id === id) : null;
 
   const { raw, heading, date, link, categories, commentaries } = data
     ? processRenderData(data)

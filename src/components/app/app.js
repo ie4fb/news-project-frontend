@@ -3,20 +3,18 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Router, Route, useHistory, Switch, Redirect } from 'react-router-dom';
 import AppHeader from '../header/header';
 import { getNewsData } from '../../services/actions/news';
-import { getTagsData } from '../../services/actions/tagFilter';
+import { getBlogsData } from '../../services/actions/blogs';
+import { getBlogsTagsData } from '../../services/actions/blogsTagFilter';
+import { getNewsTagsData } from '../../services/actions/newsTagFilter';
+import Blogs from '../../pages/blogs';
 
 import Main from '../main/main';
 import NewsEditor from '../news-editor/news-editor';
 import NewsCreator from '../news-creator/news-creator';
 import NewsArticle from '../news-article/news-article';
 import Footer from '../footer/footer';
-import TagsFilter from '../tags-filter/tags-filter';
-import NewsBlockTop from '../news-block-top/news-block-top';
-import NewsBlockBottom from '../news-block-bottom/news-block-bottom';
-import Breadcrubs from '../breadcrumbs/breadcrumbs';
-import NewsBlockLarge from '../news-block-large/news-block-large';
+import Breadcrumbs from '../breadcrumbs/breadcrumbs';
 import Login from '../login/login';
-// import Admin from '../admin/admin';
 import { ProtectedRoute } from '../protected-route/protected-route';
 import useWindowSize from '../../hooks/useWindowSize';
 import AdminNews from '../admin-news/admin-news';
@@ -24,16 +22,15 @@ import Admin from '../admin/admin';
 import {
   SET_RENDER_COUNT,
   SET_TOP_RENDER_COUNT,
-  SET_DATA_CHUNKS,
+  SET_NEWS_DATA_CHUNKS,
 } from '../../services/actions/news';
+import { SET_BLOGS_DATA_CHUNKS } from '../../services/actions/blogs';
 import {
   TOGGLE_MOBILE_STATE,
   SET_WINDOW_SIZE,
 } from '../../services/actions/app';
-import ShowMore from '../show-more/show-more';
-import NewsBlockAdditional from '../news-block-additional/news-block-additional';
 
-//import appStyles from './app.module.css';
+import News from '../../pages/news';
 
 const tags = [
   'Политика',
@@ -53,28 +50,23 @@ const tags = [
 
 function App() {
   const [isNavbarActive, setIsNavbarActive] = useState(false);
-
-  // const [dataBatch, setDataBatch] = useState(null);
-
-  //const [news, setNews] = useState(null);
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const [content, setContent] = useState(null);
-  // const [newsByCategory, setNewsByCategory] = useState(null);
-
+  const { news, renderCount, topRenderCount, additionalChunksRendered } =
+    useSelector((state) => state.news);
   const {
-    news,
-    renderCount,
-    topRenderCount,
-    additionalChunks,
-    showLoadButton,
-    additionalChunksRendered,
-  } = useSelector((state) => state.news);
+    blogs,
+    blogsRenderCount,
+    blogsTopRenderCount,
+    blogsAdditionalChunksRendered,
+  } = useSelector((state) => state.blogs);
+  const { blogsCategories, currentBlogFilter } = useSelector(
+    (state) => state.blogsTagFilter
+  );
 
   const { isMobile } = useSelector((store) => store.app);
-  // const { categories } = useSelector((state) => state.tagFilter);
-  const { currentFilter } = useSelector((state) => state.tagFilter);
+  const { currentNewsFilter } = useSelector((state) => state.newsTagFilter);
   const windowSize = useWindowSize();
 
   useEffect(() => {
@@ -84,10 +76,9 @@ function App() {
     dispatch({ type: SET_WINDOW_SIZE, windowSize: windowSize });
   }, [windowSize, dispatch]);
 
-  const middleCount = isMobile ? 7 : 5;
-
-  const createDataBatch = useCallback(
+  const createNewsDataBatch = useCallback(
     (news, currentFilter) => {
+      const middleCount = isMobile ? 7 : 5;
       const categoryNews =
         currentFilter === 'Все'
           ? news
@@ -138,7 +129,7 @@ function App() {
         return result;
       };
       dispatch({
-        type: SET_DATA_CHUNKS,
+        type: SET_NEWS_DATA_CHUNKS,
         topBlockChunk: topBlockChunk,
         largeBlockChunk: largeBlockChunk,
         bottomBlockChunk: bottomBlockChunk,
@@ -153,17 +144,75 @@ function App() {
     [isMobile, topRenderCount, renderCount, dispatch, additionalChunksRendered]
   );
 
-  useEffect(() => {
-    if (news && news.length && currentFilter) {
-      createDataBatch(news, currentFilter);
-    }
-  }, [news, currentFilter, createDataBatch]);
+  const createBlogsDataBatch = useCallback(
+    (blogs, currentFilter) => {
+      const middleCount = 4;
+      const categoryBlogs =
+        currentFilter === 'Все'
+          ? blogs
+          : blogs.filter((item) => item.category === currentFilter);
+      const totalBlogsItems = !isMobile ? 11 : 7;
+
+      if (totalBlogsItems > categoryBlogs.length) {
+        blogs.forEach((item) => {
+          if (
+            !categoryBlogs.find((x) => x === item) &&
+            categoryBlogs.length < totalBlogsItems
+          ) {
+            categoryBlogs.push(item);
+          }
+        });
+      }
+      const topBlockChunk = categoryBlogs.slice(0, 3);
+      const largeBlockChunk = categoryBlogs.slice(
+        topBlockChunk.length,
+        topBlockChunk.length + middleCount
+      );
+      const bottomBlockChunk = categoryBlogs.slice(
+        topBlockChunk.length + largeBlockChunk.length,
+        topBlockChunk.length + largeBlockChunk.length + 4
+      );
+      const createAdditionalChunks = (array, totalBlogsItems) => {
+        const perChunk = 4;
+        const inputArray = array.slice(totalBlogsItems);
+        const result = inputArray.reduce((resultArray, item, index) => {
+          const chunkIndex = Math.floor(index / perChunk);
+          if (!resultArray[chunkIndex]) {
+            resultArray[chunkIndex] = [];
+          }
+
+          resultArray[chunkIndex].push(item);
+
+          return resultArray;
+        }, []);
+        return result;
+      };
+      dispatch({
+        type: SET_BLOGS_DATA_CHUNKS,
+        topBlockChunk: topBlockChunk,
+        largeBlockChunk: largeBlockChunk,
+        bottomBlockChunk: bottomBlockChunk,
+        additionalChunks: createAdditionalChunks(categoryBlogs, totalBlogsItems),
+        showLoadButton:
+        categoryBlogs.length > totalBlogsItems &&
+          createAdditionalChunks(categoryBlogs, totalBlogsItems).length >
+          blogsAdditionalChunksRendered,
+      });
+    },
+    [isMobile, renderCount, dispatch, blogsAdditionalChunksRendered]
+  );
 
   useEffect(() => {
-    if (news && news.length) {
-      setContent(news);
+    if (news && news.length && currentNewsFilter) {
+      createNewsDataBatch(news, currentNewsFilter);
     }
-  }, [news]);
+  }, [news, currentNewsFilter, createNewsDataBatch]);
+
+  useEffect(() => {
+    if (blogs && blogs.length && currentBlogFilter) {
+      createBlogsDataBatch(blogs, currentBlogFilter);
+    }
+  }, [blogs, currentBlogFilter, createBlogsDataBatch]);
 
   const handleMenuClick = () => {
     setIsNavbarActive((prevState) => !prevState);
@@ -192,7 +241,9 @@ function App() {
 
   useEffect(() => {
     dispatch(getNewsData());
-    dispatch(getTagsData());
+    dispatch(getNewsTagsData());
+    dispatch(getBlogsData());
+    dispatch(getBlogsTagsData());
   }, [dispatch]);
 
   useEffect(() => {
@@ -207,69 +258,33 @@ function App() {
       />
       <Switch>
         <Route exact path='/news'>
-          <TagsFilter place={'/news'} categories={tags} />
-          <Main>
-            <>
-              <NewsBlockTop />
-              <NewsBlockLarge />
-              <NewsBlockBottom />
-              {/* <NewsEditor content={content} /> */}
-              {additionalChunks &&
-                additionalChunks.map((chunk, index) =>
-                  isMobile ? (
-                    <NewsBlockAdditional
-                      key={index}
-                      chunk={chunk}
-                      index={index}
-                    />
-                  ) : (
-                    <NewsBlockBottom
-                      key={index}
-                      index={index}
-                      chunk={chunk}
-                      type={'additional'}
-                    />
-                  )
-                )}
-              {showLoadButton && <ShowMore />}
-            </>
-          </Main>
+          <News />
         </Route>
         <Route exact path='/news/:category'>
-          <TagsFilter place={'/news'} categories={tags} />
-          <Main>
-            <NewsBlockTop />
-            <NewsBlockLarge />
-            <NewsBlockBottom />
-            {additionalChunks &&
-              additionalChunks.map((chunk, index) =>
-                isMobile ? (
-                  <NewsBlockAdditional
-                    key={index}
-                    index={index}
-                    chunk={chunk}
-                  />
-                ) : (
-                  <NewsBlockBottom
-                    key={index}
-                    index={index}
-                    chunk={chunk}
-                    type={'additional'}
-                  />
-                )
-              )}
-            {showLoadButton && <ShowMore />}
-          </Main>
+          <News />
         </Route>
         <Route exact path='/news/:category/:id'>
           <Main>
             <>
-              <Breadcrubs />
-              <NewsArticle content={content} />
+              <Breadcrumbs />
+              <NewsArticle />
             </>
           </Main>
         </Route>
-        <Route exact path='/blogs'></Route>
+        <Route exact path='/blogs'>
+          <Blogs />
+        </Route>
+        <Route exact path='/blogs/:category'>
+          <Blogs />
+        </Route>
+        <Route exact path='/blogs/:category/:id'>
+          <Main>
+            <>
+              <Breadcrumbs />
+              <NewsArticle />
+            </>
+          </Main>
+        </Route>
         <Route exact path='/channels'></Route>
         <Route exact path='/login'>
           <Login />

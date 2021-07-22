@@ -7,17 +7,12 @@ import { useHistory } from 'react-router';
 import { formatDate } from '../../utils/utils';
 
 export default function NewsItemMobile({ item, type, index }) {
+  
   const history = useHistory();
-
-  const [allowRender, setAllowRender] = useState(false);
 
   const openArticle = () => {
     history.push(`/news/${item.category}/${item._id}`);
   };
-
-  const { currentFilter } = useSelector((store) => store.tagFilter);
-
-  useEffect(() => {});
 
   const formattedDate = item ? formatDate(item) : '10 Июня 2021';
 
