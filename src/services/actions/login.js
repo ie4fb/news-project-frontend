@@ -1,5 +1,3 @@
-import { useHistory } from "react-router-dom";
-import useFormWithValidation from "../../hooks/useFormWithValidation";
 import { loginRequest, checkRequest } from "../../utils/api";
 
 export const LOGIN_REQUEST = "LOGIN_REQUEST";

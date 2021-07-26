@@ -1,8 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import styles from './news-item.module.css';
 import commentsIcon from '../../images/icons/comments.svg';
 import commentsIcon_light from '../../images/icons/comments_light.svg';
-import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { formatDate } from '../../utils/utils';
 

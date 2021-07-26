@@ -7,6 +7,7 @@ import { getBlogsData } from '../../services/actions/blogs';
 import { getBlogsTagsData } from '../../services/actions/blogsTagFilter';
 import { getNewsTagsData } from '../../services/actions/newsTagFilter';
 import Blogs from '../../pages/blogs';
+import MainPage from '../../pages/main-page';
 
 import Main from '../main/main';
 import NewsEditor from '../news-editor/news-editor';
@@ -19,6 +20,7 @@ import { ProtectedRoute } from '../protected-route/protected-route';
 import useWindowSize from '../../hooks/useWindowSize';
 import AdminNews from '../admin-news/admin-news';
 import Admin from '../admin/admin';
+import AdminBlogs from '../admin-blogs/admin-blogs';
 import {
   SET_RENDER_COUNT,
   SET_TOP_RENDER_COUNT,
@@ -29,24 +31,8 @@ import {
   TOGGLE_MOBILE_STATE,
   SET_WINDOW_SIZE,
 } from '../../services/actions/app';
-
+import Channels from '../../pages/channels';
 import News from '../../pages/news';
-
-const tags = [
-  'Политика',
-  'Общество',
-  'Бизнес',
-  'Экономика',
-  'Происшествия',
-  'Мир',
-  'Инвестировать',
-  'Телекоммуникации',
-  'Финансы. Рынок',
-  'Занять',
-  'В городе',
-  'Культура',
-  'Спорт',
-];
 
 function App() {
   const [isNavbarActive, setIsNavbarActive] = useState(false);
@@ -57,11 +43,9 @@ function App() {
     useSelector((state) => state.news);
   const {
     blogs,
-    blogsRenderCount,
-    blogsTopRenderCount,
     blogsAdditionalChunksRendered,
   } = useSelector((state) => state.blogs);
-  const { blogsCategories, currentBlogFilter } = useSelector(
+  const { currentBlogFilter } = useSelector(
     (state) => state.blogsTagFilter
   );
 
@@ -146,7 +130,7 @@ function App() {
 
   const createBlogsDataBatch = useCallback(
     (blogs, currentFilter) => {
-      const middleCount = 4;
+      const middleCount = isMobile? 3 : 4;
       const categoryBlogs =
         currentFilter === 'Все'
           ? blogs
@@ -163,14 +147,14 @@ function App() {
           }
         });
       }
-      const topBlockChunk = categoryBlogs.slice(0, 3);
+      const topBlockChunk = categoryBlogs.slice(0,  windowSize.width < 1000 && windowSize.width > 768? 4 : 3);
       const largeBlockChunk = categoryBlogs.slice(
         topBlockChunk.length,
         topBlockChunk.length + middleCount
       );
       const bottomBlockChunk = categoryBlogs.slice(
         topBlockChunk.length + largeBlockChunk.length,
-        topBlockChunk.length + largeBlockChunk.length + 4
+        topBlockChunk.length + largeBlockChunk.length + middleCount
       );
       const createAdditionalChunks = (array, totalBlogsItems) => {
         const perChunk = 4;
@@ -199,7 +183,7 @@ function App() {
           blogsAdditionalChunksRendered,
       });
     },
-    [isMobile, renderCount, dispatch, blogsAdditionalChunksRendered]
+    [isMobile, dispatch, blogsAdditionalChunksRendered, windowSize]
   );
 
   useEffect(() => {
@@ -248,6 +232,8 @@ function App() {
 
   useEffect(() => {
     dispatch({ type: SET_WINDOW_SIZE, windowSize: windowSize });
+    
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
   return (
@@ -257,6 +243,9 @@ function App() {
         isNavbarActive={isNavbarActive}
       />
       <Switch>
+      <Route exact path='/'>
+          <MainPage />
+        </Route>
         <Route exact path='/news'>
           <News />
         </Route>
@@ -267,7 +256,7 @@ function App() {
           <Main>
             <>
               <Breadcrumbs />
-              <NewsArticle />
+              <NewsArticle  path={'news'}/>
             </>
           </Main>
         </Route>
@@ -281,11 +270,13 @@ function App() {
           <Main>
             <>
               <Breadcrumbs />
-              <NewsArticle />
+              <NewsArticle path={'blogs'} />
             </>
           </Main>
         </Route>
-        <Route exact path='/channels'></Route>
+        <Route exact path='/channels'>
+          <Channels />
+        </Route>
         <Route exact path='/login'>
           <Login />
         </Route>
@@ -296,10 +287,19 @@ function App() {
           <AdminNews />
         </ProtectedRoute>
         <ProtectedRoute path={'/admin/news/edit/:id'} exact={true}>
-          <NewsEditor />
+          <NewsEditor path={'news'}/>
         </ProtectedRoute>
         <ProtectedRoute path={'/admin/news/add/'} exact={true}>
-          <NewsCreator />
+          <NewsCreator path={'news'}/>
+        </ProtectedRoute>
+        <ProtectedRoute path={`/admin/blogs`} exact={true}>
+          <AdminBlogs />
+        </ProtectedRoute>
+        <ProtectedRoute path={'/admin/blogs/edit/:id'} exact={true}>
+          <NewsEditor path={'blogs'}/>
+        </ProtectedRoute>
+        <ProtectedRoute path={'/admin/blogs/add/'} exact={true}>
+          <NewsCreator path={'blogs'} />
         </ProtectedRoute>
         <Route>
           <Redirect to={'/'} />

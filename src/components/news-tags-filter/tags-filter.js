@@ -4,7 +4,6 @@ import FilterItem from './filter-item/filter-item';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { SET_SELECTED_NEWS_TAG } from '../../services/actions/newsTagFilter';
-import { SET_SELECTED_BLOGS_TAG } from '../../services/actions/blogsTagFilter';
 import { useHistory } from 'react-router';
 
 export default function TagsFilter({ reducer, place }) {
@@ -26,7 +25,7 @@ export default function TagsFilter({ reducer, place }) {
     if (currentNewsFilter !== 'Все') {
       history.push(`/news/${currentNewsFilter}`);
     }
-  }, [dispatch, category]);
+  }, [dispatch, category, place, currentNewsFilter, history]);
 
   const toggleTagsSectionExpansion = () => {
     setIsSectionExpanded((prevState) => !prevState);

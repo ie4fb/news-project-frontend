@@ -1,10 +1,11 @@
 import React, { useRef, useState, useEffect } from 'react';
 import styles from './commentaries.module.css';
 import { formatDate } from '../../utils/utils';
-import { putComment, deleteComment } from '../../utils/api';
+import { putComment, deleteComment, deleteBlogsComment, putBlogsComment} from '../../utils/api';
 import { useParams } from 'react-router';
 
-export default function Commentaries({ data, editMode }) {
+
+export default function Commentaries({ data, editMode, path }) {
   const nameInputRef = useRef(null);
   const textInputRef = useRef(null);
   const [comments, setComments] = useState(data);
@@ -12,6 +13,7 @@ export default function Commentaries({ data, editMode }) {
 
   const onSubmit = (e) => {
     e.preventDefault();
+
     const now = new Date();
     const item = {
       author: nameInputRef.current.value,
@@ -20,13 +22,25 @@ export default function Commentaries({ data, editMode }) {
     };
     nameInputRef.current.value = ''
     textInputRef.current.value = ''
-    putComment(item, id).then((data) => setComments(data.comments));
+    if(path === 'news') {
+      putComment(item, id).then((data) => setComments(data.comments));
+    } else {
+      putBlogsComment(item, id).then((data) => setComments(data.comments));
+    }
+
   };
 
   const onDelete = (item) => {
-    deleteComment({ comment: item._id }, id).then((data) => {
-      setComments(data.comments);
-    });
+    if(path === 'news') {
+      deleteComment({ comment: item._id }, id).then((data) => {
+        setComments(data.comments);
+      });
+    } else {
+      deleteBlogsComment({ comment: item._id }, id).then((data) => {
+        setComments(data.comments);
+      });
+    }
+
   };
 
   const Commentary = ({ item }) => (
@@ -67,7 +81,7 @@ export default function Commentaries({ data, editMode }) {
         />
         <textarea
           minLength='2'
-          maxlength='150'
+          maxLength='150'
           className={`${styles.input_text} ${styles.input}`}
           placeholder='Ваш комментарий'
           name='text'

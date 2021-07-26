@@ -21,12 +21,8 @@
       width: calc(100% - 30px);
       grid-template-columns: 1fr;
       grid-template-areas:
-        'currency'
         'vertical_top'
-        'single'
-        'vertical_middle'
-        'short_list'
-        'vertical_bottom';
+        'single';
       grid-template-rows: auto;
     }
     .container {

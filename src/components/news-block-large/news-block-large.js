@@ -1,6 +1,5 @@
 import styles from './news-block-large.module.css';
-import React, { useEffect, useCallback, useState } from 'react';
-import { useLocation } from 'react-router';
+import React from 'react';
 import NewsItemVertical from '../news-item-vertical/news-item-vertical';
 import NewsItemHorizontal from '../news-item-horizontal/news-item-horizontal';
 import NewsItemHorizontalImage from '../news-item-horizontal-image/news-item-horizontal-image';
@@ -35,7 +34,9 @@ export default function NewsBlockLarge() {
               />
             )}
             <NewsItemHorizontal
-              maxTextLength={windowSize.width > 1200 ? 120 : isMobile ? 150 : 120}
+              maxTextLength={
+                windowSize.width > 1200 ? 120 : isMobile ? 150 : 120
+              }
               maxHeadingLength={
                 windowSize.width > 1200 ? 50 : isMobile ? 100 : 50
               }

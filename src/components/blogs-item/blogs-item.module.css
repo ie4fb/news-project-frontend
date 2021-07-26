@@ -3,6 +3,8 @@
   position: relative;
   display: flex;
   flex-direction: column;
+  cursor: pointer;
+  min-width: 280px;
 }
 .background_image {
   position: absolute;
@@ -80,7 +82,7 @@
   display: flex;
   justify-content: space-between;
   width: 88%;
-  margin: 35px 0 28px 26px;
+  margin: auto 0 28px 26px;
 }
 
 .date {
@@ -91,6 +93,7 @@
   color: #fff;
   margin: 0;
   text-transform: uppercase;
+  margin: 20px 0;
 }
 .icon {
   width: 22px;
@@ -98,6 +101,7 @@
 }
 .comments_wrapper {
   display: flex;
+  margin: 20px 0;
 }
 .comments_count {
   margin: 0 0 0 14px;

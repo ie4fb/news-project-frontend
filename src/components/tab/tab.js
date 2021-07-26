@@ -2,18 +2,20 @@ import { useEffect, useState } from 'react';
 import tabStyles from './tab.module.css';
 import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router';
+import { useSelector } from 'react-redux';
 
-export default function Tab({ path, label, onClick, activeTab }) {
+export default function Tab({ path, label, onClick }) {
   const [isActive, setIsActive] = useState(false);
+  const {activeTab} = useSelector(store => store.app)
 
   const history = useHistory();
   useEffect(() => {
-    if (path.split('/')[1] === history.location.pathname.split('/')[1]) {
+    if (path.split('/')[1] === activeTab) {
       setIsActive(true);
     } else {
       setIsActive(false);
     }
-  }, [history.location.pathname, path]);
+  }, [path, activeTab]);
 
   return (
       <Link onClick={() => {

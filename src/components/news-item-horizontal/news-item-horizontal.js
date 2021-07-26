@@ -1,9 +1,7 @@
 import styles from './news-item-horizontal.module.css';
-import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { formatDate } from '../../utils/utils';
 import commentsIcon_light from '../../images/icons/comments_light.svg';
-import { getExchangeRates } from '../../utils/api';
 import CurrencyBlock from '../currency-block/currency-block';
 
 export default function MewsItemHorizontal({
@@ -16,46 +14,9 @@ export default function MewsItemHorizontal({
   isBottom
 }) {
   const history = useHistory();
-  const [exchangeRates, setExchangeRates] = useState(null);
   const openArticle = () => {
     history.push(`/news/${item.category}/${item._id}`);
   };
-
-  useEffect(() => {
-    if (isFirstBlock) {
-      getExchangeRates().then((res) =>
-        setExchangeRates({
-          usd: `${
-            res.Valute.USD.Value.toString().split('.')[0] +
-            ',' +
-            res.Valute.USD.Value.toString()
-              .split('.')[1]
-              .split('')
-              .slice(0, 2)
-              .join('')
-          }`,
-          eur: `${
-            res.Valute.EUR.Value.toString().split('.')[0] +
-            ',' +
-            res.Valute.EUR.Value.toString()
-              .split('.')[1]
-              .split('')
-              .slice(0, 2)
-              .join('')
-          }`,
-          gbp: `${
-            res.Valute.GBP.Value.toString().split('.')[0] +
-            ',' +
-            res.Valute.GBP.Value.toString()
-              .split('.')[1]
-              .split('')
-              .slice(0, 2)
-              .join('')
-          }`,
-        })
-      );
-    }
-  }, []);
 
   const formattedDate = item ? formatDate(item) : '';
   return (

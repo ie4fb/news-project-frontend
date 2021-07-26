@@ -14,6 +14,7 @@ export default function Breadcrumbs() {
   const [lastCrumb, setLastCrumb] = useState(null);
 
   const { news } = useSelector((store) => store.news);
+  const { blogs } = useSelector((store) => store.blogs);
 
   useEffect(() => {
     if (news) {
@@ -24,9 +25,9 @@ export default function Breadcrumbs() {
       } else {
         setPath('Каналы');
       }
-      setLastCrumb(news.filter((x) => x._id === id)[0]);
+      setLastCrumb(news.filter((x) => x._id === id)[0] || blogs.filter((x) => x._id === id)[0]);
     }
-  }, [location, id, news]);
+  }, [location, id, news, blogs]);
 
   const setCategory = () => {
     if (location.pathname.split('/')[1] === 'news') {

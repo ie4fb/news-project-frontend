@@ -17,6 +17,7 @@ export default function AppHeader({handleMenuClick, isNavbarActive}) {
 
   useEffect(() => {
     setActiveTab(history.location.pathname);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
 
 

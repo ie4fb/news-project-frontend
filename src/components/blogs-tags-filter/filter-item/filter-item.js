@@ -1,6 +1,5 @@
 import styles from './filter-item.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { SET_SELECTED_NEWS_TAG } from '../../../services/actions/newsTagFilter';
 import { SET_SELECTED_BLOGS_TAG } from '../../../services/actions/blogsTagFilter';
 import { useHistory } from 'react-router';
 
@@ -9,7 +8,6 @@ export default function FilterItem({ text, onClick, place }) {
   const history = useHistory();
   const dispatch = useDispatch();
   const changeCurrentFilter = () => {
-    console.log(text, currentBlogFilter);
     history.push(`${place}/${text === 'Все' ? '' : text}`);
     dispatch({
       type: SET_SELECTED_BLOGS_TAG,

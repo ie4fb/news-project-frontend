@@ -1,27 +1,22 @@
-import React, { useState, useEffect, Component, useRef } from 'react';
+import React, { useState, useEffect} from 'react'; 
 import { useParams, useHistory } from 'react-router-dom';
-import { convertFromRaw, convertToRaw, EditorState } from 'draft-js';
-import { Editor } from 'react-draft-wysiwyg';
+import { convertToRaw} from 'draft-js';
 import '../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { MegadraftEditor, editorStateFromRaw } from 'megadraft';
 import 'megadraft/dist/css/megadraft.css';
-import { Link } from 'react-router-dom';
-import redraft from 'redraft';
 import styles from './news-editor.module.css';
-import AtomicBlock from '../news-article/atomic-block/atomic-block';
 import ImagePlugin from 'megadraft/lib/plugins/image/plugin';
 import NewsArticle from '../news-article/news-article';
 import { useSelector } from 'react-redux';
-import { updateNews } from '../../utils/api';
+import { updateNews, updateBlogs } from '../../utils/api';
 
-export default function NewsEditor({ content2 }) {
+export default function NewsEditor({path}) {
   const { news } = useSelector((store) => store.news);
+  const { blogs } = useSelector((store) => store.blogs);
   const { id } = useParams();
   const [content, setContent] = useState(null);
   const [initialState, setInitialState] = useState(null);
   const [editorState, setEditorState] = useState(null);
-  const [raw, setRaw] = useState(null);
-  const [paste, setPaste] = useState(false);
   const [isSuccessFull, setIsSuccessfull] = useState(false);
   const [editData, setEditData] = useState({
     heading: null,
@@ -42,12 +37,8 @@ export default function NewsEditor({ content2 }) {
   };
 
   useEffect(() => {
-    console.log(editorState)
-  }, [editorState])
-
-  useEffect(() => {
     if (news) {
-      setContent(news.find((item) => item._id === id));
+      setContent(news.find((item) => item._id === id) || blogs.find((item) => item._id === id));
     }
     if (content) {
       setInitialState(editorStateFromRaw(content.renderData));
@@ -59,25 +50,24 @@ export default function NewsEditor({ content2 }) {
         category: content.category,
         image: content.image,
         renderData: editData.renderData,
+        source: content.source
       });
     }
-  }, [news, id, content]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [news, id, content, blogs]);
 
   useEffect(() => {
     if (initialState) {
       setEditorState(initialState);
-      setRaw(convertToRaw(initialState.getCurrentContent()));
     }
   }, [initialState]);
 
   const onBack = () => {
-    history.push('/admin/news');
+    history.push(`/admin/${path}`);
   };
 
   const handleUpdate = (editorState) => {
     setEditorState(editorState);
-    setRaw(convertToRaw(editorState.getCurrentContent()));
-    setPaste(false);
     const stateCopy = editData;
 
     stateCopy.renderData = convertToRaw(editorState.getCurrentContent());
@@ -89,15 +79,19 @@ export default function NewsEditor({ content2 }) {
     stateCopy.renderData = stateCopy.renderData
       ? stateCopy.renderData
       : convertToRaw(editorState.getCurrentContent());
-    console.log(stateCopy);
-    updateNews(stateCopy, content._id).then(() => setIsSuccessfull(true));
+    if( path === 'news') {
+      updateNews(stateCopy, content._id).then(() => setIsSuccessfull(true));
+    } else {
+      updateBlogs(stateCopy, content._id).then(() => setIsSuccessfull(true));
+    }
+
   };
 
   return (
     <main className={styles.content}>
       <h2 className={styles.preview_heading}>Превью</h2>
       {editorState && (
-        <NewsArticle editMode={true} editModeData={editorState} />
+        <NewsArticle path={path} editMode={true} editModeData={editorState} />
       )}
       <h2 className={styles.preview_heading}>Редактор</h2>
       <div
@@ -171,7 +165,14 @@ export default function NewsEditor({ content2 }) {
         className={styles.input}
         defaultValue={editData.link}
         min='2'
-        disabled={true}
+      />
+      <p className={styles.subheading}>Источник(по умолчанию Коммерсант)</p>
+      <input
+        id='link'
+        onChange={onChange}
+        className={styles.input}
+        defaultValue={editData.source}
+        min='2'
       />
       <button className={styles.button} onClick={onSave}>
         Сохранить

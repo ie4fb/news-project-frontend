@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styles from './blogs-item.module.css';
-import { useSelector } from 'react-redux';
 import commentsIcon from '../../images/icons/comments.svg';
 import { useHistory } from 'react-router';
+import { formatDate } from '../../utils/utils';
 
 export default function BlogsItem({ gridArea, isGrid, content }) {
   const history = useHistory();
@@ -10,7 +10,7 @@ export default function BlogsItem({ gridArea, isGrid, content }) {
   const onClick = () => {
     history.push(`/blogs/${content.category}/${content._id}`);
   };
-
+  const formattedDate = formatDate(content);
   return (
     <>
       {content && (
@@ -34,7 +34,7 @@ export default function BlogsItem({ gridArea, isGrid, content }) {
           </div>
           <h3 className={styles.heading}>{content.heading}</h3>
           <div className={styles.bottom_wrapper}>
-            <p className={`${styles.date}`}>12 МАЯ 2021</p>
+            <p className={`${styles.date}`}>{formattedDate}</p>
             <div className={styles.comments_wrapper}>
               <img src={commentsIcon} className={styles.icon} alt='иконка' />
               <p className={`${styles.comments_count}`}>

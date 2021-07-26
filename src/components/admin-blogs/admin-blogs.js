@@ -1,19 +1,21 @@
-import styles from './admin-news.module.css';
+import styles from './admin-blogs.module.css';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { useState, useEffect } from 'react';
 import { formatDate } from '../../utils/utils';
 import { useDispatch } from 'react-redux';
-import { getNewsData } from '../../services/actions/news';
-import { deleteNews } from '../../utils/api';
+import { getBlogsData } from '../../services/actions/blogs';
+import { getBlogsTagsData } from '../../services/actions/blogsTagFilter';
+import { deleteBlogs } from '../../utils/api';
 
-export default function AdminNews() {
-  const { news } = useSelector((store) => store.news);
+export default function AdminBlogs() {
+  const { blogs } = useSelector((store) => store.blogs);
   const history = useHistory();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getNewsData());
+    dispatch(getBlogsData());
+    dispatch(getBlogsTagsData());
   }, [dispatch]);
 
   const [page, setPage] = useState(1);
@@ -21,10 +23,10 @@ export default function AdminNews() {
   const [pagesButtons, setPagesButtons] = useState(null);
 
   useEffect(() => {
-    if (news) {
-      setPagesCount(Math.ceil(news.length / 30));
+    if (blogs) {
+      setPagesCount(Math.ceil(blogs.length / 30));
     }
-  }, [news]);
+  }, [blogs]);
 
   useEffect(() => {
     const arr = [];
@@ -41,27 +43,27 @@ export default function AdminNews() {
   };
 
   const onClick = (e) => {
-    history.push(`/admin/news/edit/${e.target.id}`);
+    history.push(`/admin/blogs/edit/${e.target.id}`);
   };
   const onAddClick = () => {
-    history.push('/admin/news/add');
+    history.push('/admin/blogs/add');
   };
   const deleteNewsEntry = (e) => {
-    deleteNews(e.target.id).then(() => {
-      dispatch(getNewsData());
+    deleteBlogs(e.target.id).then(() => {
+      dispatch(getBlogsData());
     })
   };
 
   return (
     <section className={styles.container}>
-      <h1 className={styles.news_heading}>Новости</h1>
+      <h1 className={styles.news_heading}>Блоги</h1>
       <div className={styles.button_contaner}>
         <button onClick={onAddClick} className={styles.add_button}>
-          Добавить новость
+          Добавить запись
         </button>
       </div>
       <ul className={styles.news}>
-        {(page === 0 ? news : news.slice((page - 1) * 30, page * 30)).map(
+        {(page === 0 ? blogs : blogs.slice((page - 1) * 30, page * 30)).map(
           (item) => (
             <li key={item._id} className={styles.news_item} id={item._id}>
               <img
