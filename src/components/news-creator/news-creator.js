@@ -1,30 +1,22 @@
-import React, { useState, useEffect, Component, useRef } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
-import { convertFromRaw, convertToRaw, EditorState } from 'draft-js';
-import { Editor } from 'react-draft-wysiwyg';
+import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import { convertToRaw } from 'draft-js';
 import '../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { MegadraftEditor, editorStateFromRaw } from 'megadraft';
 import 'megadraft/dist/css/megadraft.css';
-import { Link } from 'react-router-dom';
-import redraft from 'redraft';
 import styles from './news-creator.module.css';
-import AtomicBlock from '../news-article/atomic-block/atomic-block';
 import ImagePlugin from 'megadraft/lib/plugins/image/plugin';
 import NewsArticle from '../news-article/news-article';
 import { useSelector } from 'react-redux';
-import { updateNews } from '../../utils/api';
 import { newsSample } from '../../utils/test';
-import { postNews } from '../../utils/api';
+import { postNews, postBlogs } from '../../utils/api';
 
-export default function NewsCreator() {
+export default function NewsCreator({ path }) {
   const { news } = useSelector((store) => store.news);
 
   const [content, setContent] = useState(null);
   const [initialState, setInitialState] = useState(null);
   const [editorState, setEditorState] = useState(null);
-  const [raw, setRaw] = useState(null);
-  const [paste, setPaste] = useState(false);
-  const [isSuccessFull, setIsSuccessfull] = useState(false);
   const [editData, setEditData] = useState({
     heading: null,
     link: null,
@@ -33,6 +25,7 @@ export default function NewsCreator() {
     category: null,
     image: null,
     renderData: null,
+    source: null
   });
 
   const history = useHistory();
@@ -48,7 +41,7 @@ export default function NewsCreator() {
       setContent(newsSample);
     }
     if (content) {
-      const date = new Date()
+      const date = new Date();
       setInitialState(editorStateFromRaw(content.renderData));
       setEditData({
         heading: content.heading,
@@ -58,6 +51,7 @@ export default function NewsCreator() {
         image: content.image,
         date: date,
         renderData: content.renderData,
+        source: content.source
       });
     }
   }, [news, content]);
@@ -65,7 +59,6 @@ export default function NewsCreator() {
   useEffect(() => {
     if (initialState) {
       setEditorState(initialState);
-      setRaw(convertToRaw(initialState.getCurrentContent()));
     }
   }, [initialState]);
 
@@ -75,10 +68,7 @@ export default function NewsCreator() {
 
   const handleUpdate = (editorState) => {
     setEditorState(editorState);
-    setRaw(convertToRaw(editorState.getCurrentContent()));
-    setPaste(false);
     const stateCopy = editData;
-
     stateCopy.renderData = convertToRaw(editorState.getCurrentContent());
     setEditData(stateCopy);
   };
@@ -88,15 +78,23 @@ export default function NewsCreator() {
     stateCopy.renderData = stateCopy.renderData
       ? stateCopy.renderData
       : convertToRaw(editorState.getCurrentContent());
-    // updateNews(stateCopy, content._id).then(() => setIsSuccessfull(true));
-    postNews(stateCopy).then(() => history.push('/admin/news'));
+    if (path === 'news') {
+      postNews(stateCopy).then(() => history.push('/admin/news'));
+    } else {
+      postBlogs(stateCopy).then(() => history.push('/admin/blogs'));
+    }
   };
 
   return (
     <main className={styles.content}>
       <h2 className={styles.preview_heading}>Превью</h2>
       {editorState && (
-        <NewsArticle editMode={true} editModeData={editorState} createMode={true} sampleData={content}/>
+        <NewsArticle
+          editMode={true}
+          editModeData={editorState}
+          createMode={true}
+          sampleData={content}
+        />
       )}
       <h2 className={styles.preview_heading}>Редактор</h2>
       <div
@@ -163,6 +161,15 @@ export default function NewsCreator() {
         min='2'
         disabled={true}
       />
+      <p className={styles.subheading}>Источник</p>
+      <input
+        id='source'
+        onChange={onChange}
+        className={styles.input}
+        defaultValue={editData.source}
+        min='2'
+        max='40'
+      />
       <p className={styles.subheading}>Ссылка на статью</p>
       <input
         id='link'
@@ -174,8 +181,7 @@ export default function NewsCreator() {
       <button className={styles.button} onClick={onSave}>
         Сохранить
       </button>
-      {isSuccessFull ? <span className={styles.status}>Успешно</span> : null}
-      <button className={styles.button} onClick={onBack}>
+      <button name="Вернуться назад" className={styles.button} onClick={onBack}>
         Вернуться к списку
       </button>
     </main>

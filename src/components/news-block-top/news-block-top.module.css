@@ -23,6 +23,49 @@
   margin: 0;
   justify-content: left;
   max-width: 1440px;
+  position: relative;
+}
+.link {
+  position: absolute;
+  top: -30px;
+  right: 0;
+  text-decoration: none;
+  font-family: 'Nunito', helvetica, sans-serif;
+  font-size: 18px;
+  line-height: 25px;
+  font-weight: 700;
+  color: #fff;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+}
+.arrow {
+  width: 31px;
+  position: relative;
+  border: none;
+  height: 1px;
+  background-color: #fff;
+  margin: 0 0 0 14px;
+}
+.arrow::before {
+  position: absolute;
+  top: -8px;
+  content: ' ';
+  width: 1px;
+  height: 10px;
+  right: 2px;
+  background: #fff;
+  transform: rotate(-40deg);
+}
+.arrow::after {
+  position: absolute;
+  bottom: -8px;
+  content: ' ';
+  width: 1px;
+  height: 10px;
+  right: 2px;
+  background: #fff;
+  transform: rotate(40deg);
 }
 
 @media screen and (max-width: 1279px) {

@@ -9,7 +9,7 @@
 
 .image {
   width: 27vw;
-  height: auto;
+  height: 15vw;
   object-fit: fill;
   display: block;
   max-width: 483px;
@@ -82,6 +82,8 @@
   .image {
     width: 100%;
     max-width: unset;
+    height: 100%;
   }
+
   
 }

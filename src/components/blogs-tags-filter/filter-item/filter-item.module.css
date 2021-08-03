@@ -1,0 +1,16 @@
+.container {
+    padding-bottom: 15px;
+    color:  #A259FF;
+    margin: 21px 32px 4px 0;
+    cursor: pointer;
+    font-family: 'Nunito', helvetica, sans-serif;
+    transition: all 0.2s ease-in-out;
+}
+.active {
+    border-bottom: 4px solid #a259ff;;
+    padding-bottom: 1px
+}
+.label {
+    white-space: nowrap;
+    margin: 0;
+}

@@ -6,6 +6,7 @@
   cursor: pointer;
   padding: 24px;
   background: #e4e4f5;
+  overflow: hidden;
 }
 .wrapper {
     display: flex;

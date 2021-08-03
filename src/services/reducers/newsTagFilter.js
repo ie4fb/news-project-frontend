@@ -1,7 +1,12 @@
-import { SET_SELECTED_TAG, GET_TAGS, GET_TAGS_SUCCESS, GET_TAGS_FAILURE } from '../actions/tagFilter';
+import {
+  SET_SELECTED_NEWS_TAG,
+  GET_NEWS_TAGS,
+  GET_NEWS_TAGS_SUCCESS,
+  GET_NEWS_TAGS_FAILURE,
+} from '../actions/newsTagFilter';
 
 const initialState = {
-  currentFilter: 'Все',
+  currentNewsFilter: 'Все',
   tagsRequest: false,
   tagsRequestFailed: false,
   categories: [
@@ -18,38 +23,38 @@ const initialState = {
     'В городе',
     'Культура',
     'Спорт',
-  ]
+  ],
 };
 
-export const tagFilterReducer = (state = initialState, action) => {
+export const newsTagFilterReducer = (state = initialState, action) => {
   switch (action.type) {
-    case SET_SELECTED_TAG: {
+    case SET_SELECTED_NEWS_TAG: {
       return {
         ...state,
-        currentFilter: action.filter,
+        currentNewsFilter: action.filter,
       };
     }
-    case GET_TAGS: {
+    case GET_NEWS_TAGS: {
       return {
         ...state,
         tagsRequest: true,
       };
     }
-    case GET_TAGS_SUCCESS: {
+    case GET_NEWS_TAGS_SUCCESS: {
       return {
         ...state,
         tagsRequest: false,
         tagsRequestFailed: false,
-        categories: action.categories
+        categories: action.categories,
       };
     }
-    case GET_TAGS_FAILURE: {
-        return {
-          ...state,
-          tagsRequest: false,
-          tagsRequestFailed: true,
-        };
-      }
+    case GET_NEWS_TAGS_FAILURE: {
+      return {
+        ...state,
+        tagsRequest: false,
+        tagsRequestFailed: true,
+      };
+    }
 
     default: {
       return state;

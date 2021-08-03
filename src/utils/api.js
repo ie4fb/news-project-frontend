@@ -36,9 +36,19 @@ export const getNews = () => {
     headers: headers,
   }).then(checkError);
 };
+export const getBlogs = () => {
+  return fetch(`${baseUrl}/blogs`, {
+    headers: headers,
+  }).then(checkError);
+};
 
 export const getTags = () => {
   return fetch(`${baseUrl}/news/tags`, {
+    headers: headers,
+  }).then(checkError);
+};
+export const getBlogsTags = () => {
+  return fetch(`${baseUrl}/blogs/tags`, {
     headers: headers,
   }).then(checkError);
 };
@@ -57,6 +67,14 @@ export const postNews = (data) => {
     body: JSON.stringify(data),
   }).then(checkError);
 };
+export const postBlogs = (data) => {
+  return fetch(`${baseUrl}/blogs`, {
+    method: "POST",
+    headers: headers,
+    credentials: "include",
+    body: JSON.stringify(data),
+  }).then(checkError);
+};
 
 export const updateNews = (data, id) => {
   return fetch(`${baseUrl}/news/${id}`, {
@@ -66,6 +84,15 @@ export const updateNews = (data, id) => {
     body: JSON.stringify(data),
   }).then(checkError);
 };
+export const updateBlogs = (data, id) => {
+  return fetch(`${baseUrl}/blogs/${id}`, {
+    method: "PATCH",
+    headers: headers,
+    credentials: "include",
+    body: JSON.stringify(data),
+  }).then(checkError);
+};
+
 
 export const deleteNews = (id) => {
   return fetch(`${baseUrl}/news/${id}`, {
@@ -74,6 +101,14 @@ export const deleteNews = (id) => {
   }).then(checkError);
 };
 
+export const deleteBlogs = (id) => {
+  return fetch(`${baseUrl}/blogs/${id}`, {
+    method: "DELETE",
+    credentials: "include",
+  }).then(checkError);
+};
+
+
 export const putComment = (data, id) => {
   return fetch(`${baseUrl}/news/${id}/comments`, {
     method: "PUT",
@@ -81,9 +116,25 @@ export const putComment = (data, id) => {
     body: JSON.stringify(data),
   }).then(checkError);
 };
+export const putBlogsComment = (data, id) => {
+  return fetch(`${baseUrl}/blogs/${id}/comments`, {
+    method: "PUT",
+    headers: headers,
+    body: JSON.stringify(data),
+  }).then(checkError);
+};
+
 
 export const deleteComment = (comment, id) => {
   return fetch(`${baseUrl}/news/${id}/comments`, {
+    method: "DELETE",
+    headers: headers,
+    credentials: "include",
+    body: JSON.stringify(comment),
+  }).then(checkError);
+};
+export const deleteBlogsComment = (comment, id) => {
+  return fetch(`${baseUrl}/blogs/${id}/comments`, {
     method: "DELETE",
     headers: headers,
     credentials: "include",

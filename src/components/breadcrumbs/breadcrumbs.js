@@ -3,9 +3,10 @@ import styles from './breadcrumbs.module.css';
 import { useLocation, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { SET_SELECTED_TAG } from '../../services/actions/tagFilter';
+import { SET_SELECTED_NEWS_TAG } from '../../services/actions/newsTagFilter';
+import { SET_SELECTED_BLOGS_TAG } from '../../services/actions/blogsTagFilter';
 
-export default function Breadcrubs() {
+export default function Breadcrumbs() {
   const [path, setPath] = useState('');
   const location = useLocation();
   const dispatch = useDispatch();
@@ -13,7 +14,8 @@ export default function Breadcrubs() {
   const [lastCrumb, setLastCrumb] = useState(null);
 
   const { news } = useSelector((store) => store.news);
-
+  const { blogs } = useSelector((store) => store.blogs);
+  const { isMobile } = useSelector((store) => store.app);
 
   useEffect(() => {
     if (news) {
@@ -24,15 +26,25 @@ export default function Breadcrubs() {
       } else {
         setPath('Каналы');
       }
-      setLastCrumb(news.filter((x) => x._id === id)[0]);
+      setLastCrumb(
+        news.filter((x) => x._id === id)[0] ||
+          blogs.filter((x) => x._id === id)[0]
+      );
     }
-  }, [location, id, news]);
+  }, [location, id, news, blogs]);
 
   const setCategory = () => {
+    if (location.pathname.split('/')[1] === 'news') {
       dispatch({
-        type: SET_SELECTED_TAG,
+        type: SET_SELECTED_NEWS_TAG,
         filter: lastCrumb.category,
       });
+    } else if (location.pathname.split('/')[1] === 'blogs') {
+      dispatch({
+        type: SET_SELECTED_BLOGS_TAG,
+        filter: lastCrumb.category,
+      });
+    }
   };
 
   return (
@@ -59,8 +71,13 @@ export default function Breadcrubs() {
           >
             &nbsp;{category}&nbsp;
           </Link>
-          {` / `}
-          <span>&nbsp;{lastCrumb .heading}</span>
+          {!isMobile && (
+            <>
+              {' '}
+              {` / `}
+              <span>&nbsp;{lastCrumb.heading}</span>{' '}
+            </>
+          )}
         </div>
       )}
     </>

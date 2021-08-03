@@ -5,7 +5,6 @@ import { useState, useEffect } from 'react';
 import { formatDate } from '../../utils/utils';
 import { useDispatch } from 'react-redux';
 import { getNewsData } from '../../services/actions/news';
-import { getTagsData } from '../../services/actions/tagFilter';
 import { deleteNews } from '../../utils/api';
 
 export default function AdminNews() {
@@ -15,7 +14,6 @@ export default function AdminNews() {
 
   useEffect(() => {
     dispatch(getNewsData());
-    dispatch(getTagsData());
   }, [dispatch]);
 
   const [page, setPage] = useState(1);
@@ -24,7 +22,6 @@ export default function AdminNews() {
 
   useEffect(() => {
     if (news) {
-      console.log(Math.ceil(news.length / 30));
       setPagesCount(Math.ceil(news.length / 30));
     }
   }, [news]);
@@ -50,10 +47,9 @@ export default function AdminNews() {
     history.push('/admin/news/add');
   };
   const deleteNewsEntry = (e) => {
-    console.log(e.target.id);
     deleteNews(e.target.id).then(() => {
       dispatch(getNewsData());
-    })
+    });
   };
 
   return (
@@ -78,9 +74,12 @@ export default function AdminNews() {
                 {item.heading}
               </p>
 
-              <p className={`${styles.item_heading} ${styles.date}`}>{formatDate(item)}</p>
+              <p className={`${styles.item_heading} ${styles.date}`}>
+                {formatDate(item)}
+              </p>
               <p className={`${styles.tag}`}>{item.category}</p>
               <button
+                name='Редактировать'
                 onClick={onClick}
                 id={item._id}
                 className={`${styles.edit_button} ${styles.add_button}`}
@@ -88,6 +87,7 @@ export default function AdminNews() {
                 Редактировать
               </button>
               <button
+                name='Удалить'
                 onClick={deleteNewsEntry}
                 id={item._id}
                 className={`${styles.delete_button} ${styles.add_button}`}
@@ -101,6 +101,7 @@ export default function AdminNews() {
       <div className={styles.button_contaner}>
         <button
           onClick={onPageButtonClick}
+          name="Кнопка страницы"
           id={0}
           className={`${styles.page_button}`}
         >
@@ -110,6 +111,7 @@ export default function AdminNews() {
           pagesButtons.map((item) => (
             <button
               onClick={onPageButtonClick}
+              name="Кнопка страницы"
               id={item}
               className={`${styles.page_button} ${
                 item === page ? styles.page_button_active : ''

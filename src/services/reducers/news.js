@@ -4,7 +4,7 @@ import {
   GET_NEWS_FAILURE,
   SET_RENDER_COUNT,
   SET_TOP_RENDER_COUNT,
-  SET_DATA_CHUNKS,
+  SET_NEWS_DATA_CHUNKS,
   RENDER_ADDITIONAL_CHUNKS,
 } from '../actions/news';
 
@@ -58,7 +58,7 @@ export function newsReducer(state = initialState, action) {
         topRenderCount: action.topRenderCount,
       };
     }
-    case SET_DATA_CHUNKS: {
+    case SET_NEWS_DATA_CHUNKS: {
       return {
         ...state,
         topBlockChunk: action.topBlockChunk,

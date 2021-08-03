@@ -1,0 +1,50 @@
+.link {
+  text-decoration: none;
+  font-family: 'Nunito', helvetica, sans-serif;
+  font-size: 14px;
+  line-height: 19px;
+  font-weight: 700;
+  color: #000;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  margin: 27px 24px 0 auto;
+}
+.arrow {
+  width: 31px;
+  position: relative;
+  border: none;
+  height: 1px;
+  background-color: #000;
+  margin: 0 0 0 14px;
+}
+.arrow::before {
+  position: absolute;
+  top: -8px;
+  content: ' ';
+  width: 1px;
+  height: 10px;
+  right: 2px;
+  background: #000;
+  transform: rotate(-40deg);
+}
+.arrow::after {
+  position: absolute;
+  bottom: -8px;
+  content: ' ';
+  width: 1px;
+  height: 10px;
+  right: 2px;
+  background: #000;
+  transform: rotate(40deg);
+}
+.heading {
+  width: 100%;
+  color: #000;
+  font-family: 'Nunito', helvetica, sans-serif;
+  font-size: 24px;
+  line-height: 33px;
+  font-weight: 700;
+  width: calc(100% - 30px);
+  margin: 44px 0 28px 0;
+}

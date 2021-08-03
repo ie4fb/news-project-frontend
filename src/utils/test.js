@@ -62,6 +62,7 @@ export const newsSample = {
     'https://www.kommersant.ru/Issues.photo/DAILY/2021/121/KMO_178291_00014_1_t219_224345.jpg',
   date: 'Mon Jul 19 2021 16:57:19 GMT+0300',
   category: 'Категория',
+  source: "Коммерсант"
 };
 
 const idSample = '60ecbd37c05672079455248a';

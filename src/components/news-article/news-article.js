@@ -1,17 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import redraft from 'redraft';
 import styles from './news-article.css';
 import AtomicBlock from './atomic-block/atomic-block';
-import { MegadraftEditor, editorStateFromRaw } from 'megadraft';
-import { convertFromRaw, convertToRaw, EditorState } from 'draft-js';
+import { editorStateFromRaw } from 'megadraft';
+import { convertToRaw } from 'draft-js';
 import TagsSection from '../tags-section/tags-section';
 import Commentaries from '../commentaries/commentaries';
 import { useParams } from 'react-router';
 import { useSelector } from 'react-redux';
-import { formatDate } from '../../utils/utils';
 
 const getFormattedDate = (rawDate) => {
-
   //const offset= new Date(rawDate).getTimezoneOffset()
   const date = new Date(rawDate);
 
@@ -31,11 +29,7 @@ const getFormattedDate = (rawDate) => {
   ];
   const formattedDate = `${
     date.toString().split('').slice(0, 15).join('').split(' ')[2]
-  } ${
-    months[
-      date.getMonth()
-    ]
-  } ${date.getFullYear()}`;
+  } ${months[date.getMonth()]} ${date.getFullYear()}`;
 
   return formattedDate;
 };
@@ -47,19 +41,31 @@ const processRenderData = (data) => {
   const link = data.link;
   const categories = data.category;
   const commentaries = data.comments;
+  const source = data.source || 'Коммерсант';
 
-  return { raw, heading, date, link, categories, commentaries };
-
+  return { raw, heading, date, link, categories, commentaries, source };
 };
 
-export default function NewsArticle({ editMode, editModeData, createMode, sampleData }) {
+export default function NewsArticle({
+  editMode,
+  editModeData,
+  createMode,
+  sampleData,
+  path,
+}) {
   const { id } = useParams();
 
   const { news } = useSelector((store) => store.news);
+  const { blogs } = useSelector((store) => store.blogs);
 
-  const data =createMode ? sampleData : news ? news.find((item) => item._id === id) : null;
+  const data = createMode
+    ? sampleData
+    : news
+    ? news.find((item) => item._id === id) ||
+      blogs.find((item) => item._id === id)
+    : null;
 
-  const { raw, heading, date, link, categories, commentaries } = data
+  const { raw, heading, date, link, categories, commentaries, source } = data
     ? processRenderData(data)
     : {
         raw: null,
@@ -68,6 +74,7 @@ export default function NewsArticle({ editMode, editModeData, createMode, sample
         link: null,
         categories: null,
         commentaries: null,
+        source: null,
       };
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -158,14 +165,16 @@ export default function NewsArticle({ editMode, editModeData, createMode, sample
             <p className={'news-article__source'}>
               Статья взята с сайта{' '}
               <a rel='noreferrer' className='news-article__link' href={link}>
-                Коммерсант
+                {source}
               </a>
             </p>
             <TagsSection categories={categories} />
           </>
         )}
       </article>
-     {!createMode && <Commentaries data={commentaries} editMode={editMode} /> } 
+      {!createMode && (
+        <Commentaries data={commentaries} editMode={editMode} path={path} />
+      )}
     </>
   );
 }

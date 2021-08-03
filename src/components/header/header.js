@@ -6,25 +6,26 @@ import TimeBoard from '../time-board/time-board';
 import Navigation from '../navigation/navigation';
 import { useSelector } from 'react-redux';
 
-export default function AppHeader({handleMenuClick, isNavbarActive}) {
+export default function AppHeader({ handleMenuClick, isNavbarActive }) {
   const [activeTab, setActiveTab] = useState('/');
   const history = useHistory();
 
   const handleTabChange = (path) => {
     setActiveTab(path);
   };
-  const { windowSize } = useSelector(store => store.app);
+  const { windowSize } = useSelector((store) => store.app);
 
   useEffect(() => {
     setActiveTab(history.location.pathname);
-  },[])
-
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <header className={headerStyles.header}>
       <div className={headerStyles.wrapper}>
         <a className={headerStyles.link} href='/'>
           <div className={headerStyles.logo}></div>
+            Ссылка на главную страницу
         </a>
         {windowSize.width > 768 ? (
           <>
@@ -49,12 +50,15 @@ export default function AppHeader({handleMenuClick, isNavbarActive}) {
               />
             </div>
             {windowSize.width > 1060 && <TimeBoard />}
-            
           </>
         ) : (
           <button
             onClick={handleMenuClick}
-            className={`${headerStyles.button} ${isNavbarActive ? headerStyles.open : ''}`}
+            name='Меню'
+            aria-label='Меню'
+            className={`${headerStyles.button} ${
+              isNavbarActive ? headerStyles.open : ''
+            }`}
             type='button'
           >
             <span className={headerStyles.button_bar}></span>
@@ -63,7 +67,14 @@ export default function AppHeader({handleMenuClick, isNavbarActive}) {
           </button>
         )}
       </div>
-      {windowSize.width < 769 && <Navigation isNavbarActive={isNavbarActive} activeTab={activeTab} handleMenuClick={handleMenuClick} handleTabChange={handleTabChange}/>}
+      {windowSize.width < 769 && (
+        <Navigation
+          isNavbarActive={isNavbarActive}
+          activeTab={activeTab}
+          handleMenuClick={handleMenuClick}
+          handleTabChange={handleTabChange}
+        />
+      )}
     </header>
   );
 }

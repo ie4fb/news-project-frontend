@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import styles from './tags-filter.module.css';
-import FilterItem from '../filter-item/filter-item';
+import FilterItem from './filter-item/filter-item';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
-import { SET_SELECTED_TAG } from '../../services/actions/tagFilter';
+import { SET_SELECTED_BLOGS_TAG } from '../../services/actions/blogsTagFilter';
 import { useHistory } from 'react-router';
 
-export default function TagsFilter(props) {
+export default function TagsFilter({ reducer, place }) {
+  const { currentBlogFilter, blogsCategories } = useSelector(
+    (store) => store.blogsTagFilter
+  );
+
   const [isSectionExpanded, setIsSectionExpanded] = useState(false);
   const history = useHistory();
   const dispatch = useDispatch();
@@ -14,15 +18,16 @@ export default function TagsFilter(props) {
   const { category } = useParams();
 
   useEffect(() => {
-    if (category) {
+    if (category && place === '/blogs') {
       dispatch({
-        type: SET_SELECTED_TAG,
+        type: SET_SELECTED_BLOGS_TAG,
         filter: category,
       });
     }
-  }, [dispatch, category]);
-
-  const { currentTag, categories } = useSelector((store) => store.tagFilter);
+    if (currentBlogFilter !== 'Все') {
+      history.push(`/blogs/${currentBlogFilter}`);
+    }
+  }, [dispatch, category, place, currentBlogFilter, history]);
 
   const toggleTagsSectionExpansion = () => {
     setIsSectionExpanded((prevState) => !prevState);
@@ -36,12 +41,18 @@ export default function TagsFilter(props) {
             isSectionExpanded ? styles.tags_expanded : ''
           }`}
         >
-          {categories &&
-            categories.map((item, index) => (
-              <FilterItem key={index} text={item} currentTag={currentTag} place={props.place} />
+          {blogsCategories &&
+            blogsCategories.map((item, index) => (
+              <FilterItem
+                key={index}
+                text={item}
+                currentTag={currentBlogFilter}
+                reducer={reducer}
+                place={place}
+              />
             ))}
         </div>
-        <button onClick={toggleTagsSectionExpansion} className={styles.button}>
+        <button name="Раскрыть теги" onClick={toggleTagsSectionExpansion} className={styles.button}>
           <div className={styles.dot} />
           <div className={styles.dot} />
           <div className={styles.dot} />

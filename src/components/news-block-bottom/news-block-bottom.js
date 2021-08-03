@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useState } from 'react';
+import React from 'react';
 import styles from './news-block-bottom.module.css';
 import NewsItemHorizontal from '../news-item-horizontal/news-item-horizontal';
 import NewsItem from '../news-item/news-item';

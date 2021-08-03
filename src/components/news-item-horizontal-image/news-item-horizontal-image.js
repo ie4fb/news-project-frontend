@@ -1,5 +1,4 @@
 import styles from './news-item-horizontal-image.module.css';
-import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { formatDate } from '../../utils/utils';
 import commentsIcon_light from '../../images/icons/comments_light.svg';
