@@ -18,11 +18,13 @@ export default function Footer() {
           </Link>
         </nav>
         <p className={styles.text}>
-          Hopefully we can use this boondoggle to learn what not to do in the
-          future — and maybe even look for ways to modernize our tax system
-          going forward.
+          На нашем портале вы сможете найти самые актуальные новости и
+          интересные блоги.
         </p>
-        <Link className={`${styles.avertisement_link} ${styles.link}`} to='/advertisement'>
+        <Link
+          className={`${styles.avertisement_link} ${styles.link}`}
+          to='/advertisement'
+        >
           Реклама
         </Link>
         <p className={styles.restriction}>18+</p>
