@@ -15,6 +15,7 @@ export default function Breadcrumbs() {
 
   const { news } = useSelector((store) => store.news);
   const { blogs } = useSelector((store) => store.blogs);
+  const { isMobile } = useSelector((store) => store.app);
 
   useEffect(() => {
     if (news) {
@@ -25,7 +26,10 @@ export default function Breadcrumbs() {
       } else {
         setPath('Каналы');
       }
-      setLastCrumb(news.filter((x) => x._id === id)[0] || blogs.filter((x) => x._id === id)[0]);
+      setLastCrumb(
+        news.filter((x) => x._id === id)[0] ||
+          blogs.filter((x) => x._id === id)[0]
+      );
     }
   }, [location, id, news, blogs]);
 
@@ -67,8 +71,13 @@ export default function Breadcrumbs() {
           >
             &nbsp;{category}&nbsp;
           </Link>
-          {` / `}
-          <span>&nbsp;{lastCrumb.heading}</span>
+          {!isMobile && (
+            <>
+              {' '}
+              {` / `}
+              <span>&nbsp;{lastCrumb.heading}</span>{' '}
+            </>
+          )}
         </div>
       )}
     </>

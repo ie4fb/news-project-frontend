@@ -22,7 +22,7 @@ export default function ShowMore({place}) {
 
   return (
     <div className={styles.container}>
-      <button onClick={onClick} className={styles.button}>
+      <button name="Показать еще" onClick={onClick} className={styles.button}>
         Показать еще
       </button>
     </div>

@@ -9,7 +9,6 @@ export default function FilterItem({ text, onClick, place, reducer }) {
   const history = useHistory();
   const dispatch = useDispatch();
   const changeCurrentFilter = () => {
-    console.log(place)
     history.push(`${place}/${text === 'Все' ? '' : text}`);
 
     if (place === '/news') {

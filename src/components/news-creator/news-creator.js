@@ -181,7 +181,7 @@ export default function NewsCreator({ path }) {
       <button className={styles.button} onClick={onSave}>
         Сохранить
       </button>
-      <button className={styles.button} onClick={onBack}>
+      <button name="Вернуться назад" className={styles.button} onClick={onBack}>
         Вернуться к списку
       </button>
     </main>

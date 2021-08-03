@@ -51,14 +51,18 @@ export default function AdminBlogs() {
   const deleteNewsEntry = (e) => {
     deleteBlogs(e.target.id).then(() => {
       dispatch(getBlogsData());
-    })
+    });
   };
 
   return (
     <section className={styles.container}>
       <h1 className={styles.news_heading}>Блоги</h1>
       <div className={styles.button_contaner}>
-        <button onClick={onAddClick} className={styles.add_button}>
+        <button
+          name='добавить запись'
+          onClick={onAddClick}
+          className={styles.add_button}
+        >
           Добавить запись
         </button>
       </div>
@@ -76,9 +80,12 @@ export default function AdminBlogs() {
                 {item.heading}
               </p>
 
-              <p className={`${styles.item_heading} ${styles.date}`}>{formatDate(item)}</p>
+              <p className={`${styles.item_heading} ${styles.date}`}>
+                {formatDate(item)}
+              </p>
               <p className={`${styles.tag}`}>{item.category}</p>
               <button
+                name='Редактировать'
                 onClick={onClick}
                 id={item._id}
                 className={`${styles.edit_button} ${styles.add_button}`}
@@ -86,6 +93,7 @@ export default function AdminBlogs() {
                 Редактировать
               </button>
               <button
+                name='Удалить'
                 onClick={deleteNewsEntry}
                 id={item._id}
                 className={`${styles.delete_button} ${styles.add_button}`}
@@ -98,6 +106,7 @@ export default function AdminBlogs() {
       </ul>
       <div className={styles.button_contaner}>
         <button
+          name='Кнопка страницы'
           onClick={onPageButtonClick}
           id={0}
           className={`${styles.page_button}`}
@@ -107,6 +116,7 @@ export default function AdminBlogs() {
         {pagesButtons &&
           pagesButtons.map((item) => (
             <button
+              name='Кнопка страницы'
               onClick={onPageButtonClick}
               id={item}
               className={`${styles.page_button} ${

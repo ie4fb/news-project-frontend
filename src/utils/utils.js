@@ -1,9 +1,27 @@
-export const baseUrl = 'https://api.news-project.ner.works';
+import stsLogo from '../images/icons/channels/sts_logo.svg';
+import oneTvLogo from '../images/icons/channels/1tv_logo.png';
+import fifthChannelLogo from '../images/icons/channels/5_channel_logo.svg';
+import foxLogo from '../images/icons/channels/fox_logo.svg';
+import nbcLogo from '../images/icons/channels/nbc_logo.svg';
+import netflixLogo from '../images/icons/channels/netflix_logo.svg';
+import rbcLogo from '../images/icons/channels/rbc_logo.svg';
+
+export const baseUrl = 'https://api.allchannels.ru';
 // export const baseUrl = "http://localhost:3001";
 
 export const headers = {
   'Content-Type': 'application/json',
 };
+
+export const channelsData = [
+  {name: "СТС", logo: stsLogo},
+  {name: "Первый канал", logo: oneTvLogo},
+  {name: "Пятый канал", logo: fifthChannelLogo},
+  {name: "FOX", logo: foxLogo},
+  {name: "NBC", logo: nbcLogo},
+  {name: "Netflix", logo: netflixLogo},
+  {name: "RBK", logo: rbcLogo}
+];
 
 export const checkError = async (res) => {
   if (res.ok) {

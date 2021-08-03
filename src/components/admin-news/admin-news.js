@@ -49,7 +49,7 @@ export default function AdminNews() {
   const deleteNewsEntry = (e) => {
     deleteNews(e.target.id).then(() => {
       dispatch(getNewsData());
-    })
+    });
   };
 
   return (
@@ -74,9 +74,12 @@ export default function AdminNews() {
                 {item.heading}
               </p>
 
-              <p className={`${styles.item_heading} ${styles.date}`}>{formatDate(item)}</p>
+              <p className={`${styles.item_heading} ${styles.date}`}>
+                {formatDate(item)}
+              </p>
               <p className={`${styles.tag}`}>{item.category}</p>
               <button
+                name='Редактировать'
                 onClick={onClick}
                 id={item._id}
                 className={`${styles.edit_button} ${styles.add_button}`}
@@ -84,6 +87,7 @@ export default function AdminNews() {
                 Редактировать
               </button>
               <button
+                name='Удалить'
                 onClick={deleteNewsEntry}
                 id={item._id}
                 className={`${styles.delete_button} ${styles.add_button}`}
@@ -97,6 +101,7 @@ export default function AdminNews() {
       <div className={styles.button_contaner}>
         <button
           onClick={onPageButtonClick}
+          name="Кнопка страницы"
           id={0}
           className={`${styles.page_button}`}
         >
@@ -106,6 +111,7 @@ export default function AdminNews() {
           pagesButtons.map((item) => (
             <button
               onClick={onPageButtonClick}
+              name="Кнопка страницы"
               id={item}
               className={`${styles.page_button} ${
                 item === page ? styles.page_button_active : ''

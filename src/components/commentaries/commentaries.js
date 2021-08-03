@@ -87,7 +87,7 @@ export default function Commentaries({ data, editMode, path }) {
           name='text'
           ref={textInputRef}
         />
-        <button className={styles.button}>Отправить сообщение</button>
+        <button name="Отправить"className={styles.button}>Отправить сообщение</button>
       </form>
     </section>
   );

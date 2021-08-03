@@ -55,7 +55,7 @@ function App() {
 
   useEffect(() => {
     windowSize.width > 768
-      ? dispatch({ type: TOGGLE_MOBILE_STATE, issMobile: false })
+      ? dispatch({ type: TOGGLE_MOBILE_STATE, isMobile: false })
       : dispatch({ type: TOGGLE_MOBILE_STATE, isMobile: true });
     dispatch({ type: SET_WINDOW_SIZE, windowSize: windowSize });
   }, [windowSize, dispatch]);

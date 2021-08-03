@@ -50,7 +50,7 @@ export default function TagsFilter({ reducer, place }) {
               />
             ))}
         </div>
-        <button onClick={toggleTagsSectionExpansion} className={styles.button}>
+        <button name="Раскрыть теги" onClick={toggleTagsSectionExpansion} className={styles.button}>
           <div className={styles.dot} />
           <div className={styles.dot} />
           <div className={styles.dot} />

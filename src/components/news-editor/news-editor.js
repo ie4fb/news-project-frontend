@@ -174,11 +174,11 @@ export default function NewsEditor({path}) {
         defaultValue={editData.source}
         min='2'
       />
-      <button className={styles.button} onClick={onSave}>
+      <button name="Сохранить" className={styles.button} onClick={onSave}>
         Сохранить
       </button>
       {isSuccessFull ? <span className={styles.status}>Успешно</span> : null}
-      <button className={styles.button} onClick={onBack}>
+      <button name="Вернуться назад" className={styles.button} onClick={onBack}>
         Вернуться к списку
       </button>
     </main>

@@ -6,6 +6,7 @@ import BlogsBlockLarge from '../components/blogs-block-large/blogs-block-large';
 import ShowMore from '../components/show-more/show-more';
 import { useEffect } from 'react';
 import { SET_ACTIVE_TAB } from '../services/actions/app';
+
 export default function Blogs() {
   const {
     blogsLargeBlockChunk,
@@ -13,6 +14,8 @@ export default function Blogs() {
     blogsAdditionalChunks,
     blogsShowLoadButton,
   } = useSelector((state) => state.blogs);
+
+
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -53,6 +56,7 @@ export default function Blogs() {
             ))}
           {blogsShowLoadButton && <ShowMore place='blogs' />}
         </>
+
       </Main>
     </>
   );

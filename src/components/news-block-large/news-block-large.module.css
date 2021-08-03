@@ -3,6 +3,7 @@
   justify-content: center;
   width: 100%;
   padding-top: 56px;
+  overflow: hidden;
 }
 .content {
   width: calc(100% - 160px);
@@ -52,6 +53,6 @@
     grid-template-rows: auto;
   }
   .container {
-    width: calc(100% - 60px);
+    width: 100%
   }
 }
