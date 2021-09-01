@@ -5,6 +5,7 @@ import { newsTagFilterReducer } from './newsTagFilter';
 import { loginReducer } from './login';
 import { appReducer } from './app';
 import { blogsTagFilterReducer } from './blogsTagFilter';
+import { playerReducer } from './player';
 
 export const rootReducer = combineReducers({
   newsTagFilter: newsTagFilterReducer,
@@ -13,4 +14,5 @@ export const rootReducer = combineReducers({
   app: appReducer,
   blogs: blogsReducer,
   blogsTagFilter: blogsTagFilterReducer,
+  player: playerReducer,
 });

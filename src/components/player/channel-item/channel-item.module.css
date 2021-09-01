@@ -1,0 +1,23 @@
+.channel {
+  display: flex;
+  align-items: center;
+  margin: 0 0 30px 0;
+  cursor: pointer;
+  padding-bottom: 4px;
+}
+.channel_active {
+    border-bottom: 2px solid #A259FF
+}
+.channel_name {
+  font-family: 'Nunito', Helvetica, sans-serif;
+  font-size: 18px;
+  line-height: 25px;
+  text-transform: uppercase;
+  color: #fff;
+  margin: 0 0 0 18px;
+}
+.logo {
+  width: 56px;
+  height: 35px;
+  object-fit: cover;
+}

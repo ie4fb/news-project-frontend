@@ -8,6 +8,7 @@ import { Provider } from 'react-redux';
 import { rootReducer } from './services/reducers';
 import { compose, createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
+import Player from './components/player/player/player';
 
 const composeEnhancers =
   typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
@@ -23,6 +24,7 @@ ReactDOM.render(
     <Provider store={store}>
       <BrowserRouter basename='/'>
         <App />
+        <Player id="player" file="https://lyfwb59804a.a.trbcdn.net/AllChannels/360_Novosti_SD/master.m3u8"/>
       </BrowserRouter>
     </Provider>
   </React.StrictMode>,
